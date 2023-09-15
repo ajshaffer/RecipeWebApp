@@ -1,2 +1,2 @@
 # RecipeWebApp
-CSCI-490 Group Project
+CSCI-490 Group Project - Updated
