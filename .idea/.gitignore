@@ -3,3 +3,5 @@
 /workspace.xml
 venv/
 /venv/
+**/.idea/workspace.xml 
+**/.idea/tasks.xml
