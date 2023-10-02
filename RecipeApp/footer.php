@@ -1,7 +1,5 @@
 
 
-
-
 <footer>
     <?php
     //Current Date/Time using the date function,  not the DateTime class.
