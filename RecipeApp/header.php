@@ -11,8 +11,9 @@ require_once "functions.php";
 //Initial Variables
 $currentFile = basename($_SERVER['SCRIPT_FILENAME']);
 $rightNow = time();
-
 ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,24 +30,24 @@ $rightNow = time();
         <nav>
             <div class = "navbar-left">
                 <?php
-                echo ($currentFile == "index.php") ? "<a href='index.php'>Home</a>" : "<a href='index.php'>Home</a>";
-                echo ($currentFile == "contentdisplay.php") ? "<a href='contentdisplay.php'>Local Talk</a>" : "<a href='contentdisplay.php'>Local Talk</a>";
-                if(isset($_SESSION['ID'])){
-                    echo "<a href ='contentmanage.php'>Manage Your Posts</a>";
-                }
-                if(isset($_SESSION['ID'])){
-                    echo "<a href ='contentadd.php'>Post</a>";
-                }
+                    echo ($currentFile == "index.php") ? "<a href='index.php'>Home</a>" : "<a href='index.php'>Home</a>";
+                    echo ($currentFile == "contentdisplay.php") ? "<a href='contentdisplay.php'>Local Talk</a>" : "<a href='contentdisplay.php'>Local Talk</a>";
+                    if(isset($_SESSION['ID'])){
+                        echo "<a href ='contentmanage.php'>Manage Your Posts</a>";
+                    }
+                    if(isset($_SESSION['ID'])){
+                        echo "<a href ='contentadd.php'>Post</a>";
+                    }
 
                 ?>
             </div>
             <div class="navbar-right">
                 <?php
-                echo ($currentFile == "contentsearch.php") ? "<a href='contentsearch.php'>Search</a>" : "<a href='contentsearch.php'>Search</a>";
-                if(isset($_SESSION['ID'])){
-                    echo "<a href ='updateprofile.php'>Update Profile</a>";
-                }
-                echo (isset($_SESSION['ID'])) ? "<a href ='logout.php'>Log Out</a>" : "<a href ='login.php'>Login / Register</a>";
+                    echo ($currentFile == "contentsearch.php") ? "<a href='contentsearch.php'>Search</a>" : "<a href='contentsearch.php'>Search</a>";
+                    if(isset($_SESSION['ID'])){
+                        echo "<a href ='updateprofile.php'>Update Profile</a>";
+                    }
+                    echo (isset($_SESSION['ID'])) ? "<a href ='logout.php'>Log Out</a>" : "<a href ='login.php'>Login / Register</a>";
                 ?>
             </div>
         </nav>
