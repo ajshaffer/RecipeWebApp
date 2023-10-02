@@ -1,12 +1,5 @@
 <?php
 
-/* 
-  * Class: csci303sp23
-  * User:  ajshaffer
-  * Date:  1/30/23
-  * Time:  2:12 PM
-*/
-
 $pageName = "Home";
 session_start();
 require_once "header.php";
@@ -29,11 +22,6 @@ require_once "header.php";
     <li>Content Search</li>
 </ul>
 
-
-
-
-
-
 <?php
-require_once "footer.php";
+  require_once "footer.php";
 ?>
