@@ -5,3 +5,4 @@ venv/
 /venv/
 **/.idea/workspace.xml 
 **/.idea/tasks.xml
+RecipeApp/connect.php
