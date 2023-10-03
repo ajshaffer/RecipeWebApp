@@ -126,12 +126,14 @@ if($showForm == 1){
 
                 <div class="form-group">
                     <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" required>
+                    <input type="email" id="email" name="email" required placeholder="Enter your email:" value="<?php if(isset($email)){ echo htmlspecialchars($email);}?>" size="30">
+                    <span class="error"> <?php echo $err_email;?></span><br><br>
                 </div>
 
                 <div class="form-group">
                     <label for="pwd">Password:</label>
-                    <input type="pwd" id="password" name="pwd" required>
+                    <input type="password" id="pwd" name="pwd" required placeholder="Enter your password:" size="30">
+                    <span class="error"> <?php echo $err_pwd;?></span><br>
                 </div>
 
                 <button type="submit">Login</button>
