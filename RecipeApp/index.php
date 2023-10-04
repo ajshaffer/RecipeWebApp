@@ -45,7 +45,7 @@ class UserManager
             $stmt->bindValue(':pwd', $pwd);
             $stmt->bindValue(':joined', $joined);
 
-            $success = $stmt->execute(); // Execute the query and check if it was successful
+            $success = $stmt->execute(); // Execute the query and display whether it was successful or not
 
             if ($success) {
                 echo "<p class='success'>Your account has been created!</p>";
@@ -113,7 +113,7 @@ if($showForm == 1){
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your App</title>
+    <title>CookTogether</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
