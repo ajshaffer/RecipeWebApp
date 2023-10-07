@@ -1,8 +1,11 @@
 <?php
 
 //insert.php
+require_once "connect.php";
 
-$connect = new PDO('mysql:host=localhost;dbname=testing', 'root', '');
+$database = new Database(); // Instantiate the Database class
+$pdo = $database->getConnection();
+
 
 if(isset($_POST["title"])) //checks if title is set
 {
@@ -11,8 +14,8 @@ if(isset($_POST["title"])) //checks if title is set
  (title, start_event, end_event) 
  VALUES (:title, :start_event, :end_event)
  ";
- $statement = $connect->prepare($query);
- $statement->execute(
+ $stmt = $pdo->prepare($query);
+ $stmt->execute(
   array(
    ':title'  => $_POST['title'],
    ':start_event' => $_POST['start'],

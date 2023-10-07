@@ -2,17 +2,20 @@
 
 //load.php
 
-$connect = new PDO('mysql:host=localhost;dbname=testing', 'root', '');
+require_once "connect.php";
+
+$database = new Database(); // Instantiate the Database class
+$pdo = $database->getConnection();
 
 $data = array(); //store events table data 
 
 $query = "SELECT * FROM events ORDER BY id";
 
-$statement = $connect->prepare($query);
+$stmt = $pdo->prepare($query);
 
-$statement->execute();
+$stmt->execute();
 
-$result = $statement->fetchAll();
+$result = $stmt->fetchAll();
 
 foreach($result as $row)
 {
