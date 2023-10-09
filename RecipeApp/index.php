@@ -147,25 +147,25 @@ if($showForm == 1){
 
                 <div class="form-group">
                     <label for="fname">First Name:</label>
-                    <input type="text" id="fname" name="fname" placeholder="Enter your first name:" maxlength="30" value="<?php if(isset($fname)){ echo htmlspecialchars($fname);}?>">
+                    <input type="text" id="fname" name="fname" required placeholder="Enter your first name:" maxlength="30" value="<?php if(isset($fname)){ echo htmlspecialchars($fname);}?>">
                     <span class="error"> <?php echo $err_fname;?></span><br>
                 </div>
 
                 <div class="form-group">
                     <label for="lname">Last Name:</label>
-                    <input type="text" id="lname" name="lname" placeholder="Enter your last name:" maxlength="50" value="<?php if(isset($lname)){ echo htmlspecialchars($lname);}?>">
+                    <input type="text" id="lname" name="lname" required placeholder="Enter your last name:" maxlength="50" value="<?php if(isset($lname)){ echo htmlspecialchars($lname);}?>">
                     <span class="error"> <?php echo $err_lname;?></span><br><br>
                 </div>
 
                 <div class="form-group">
                     <label for="new-email">Email:</label>
-                    <input type="email" id="new-email" name="new-email" placeholder="Enter your email:" value="<?php if(isset($email)){ echo htmlspecialchars($email);}?>">
+                    <input type="email" id="new-email" name="new-email" required placeholder="Enter your email:" value="<?php if(isset($email)){ echo htmlspecialchars($email);}?>">
                     <span class="error"> <?php echo $err_email;?></span><br><br>
                 </div>
 
                 <div class="form-group">
                     <label for="pwd">Password:</label>
-                    <input type="password" id="pwd" name="pwd" placeholder="Enter a password:">
+                    <input type="password" id="pwd" name="pwd" required placeholder="Enter a password:">
                     <span class="error"> <?php echo $err_pwd;?></span><br>
                 </div>
 
