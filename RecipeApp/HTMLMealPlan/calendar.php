@@ -10,12 +10,17 @@
     <!DOCTYPE html>
 <html>
 <head>
-<title>Page Title</title>
+<title>Meal Planner</title>
 </head>
 <body>
 
-<h1>This is a Heading</h1>
-<p>This is a paragraph.</p>
+<?php
+    echo date("Y-m-d H:i:s")
+?>
+<div>
+<a href="url">Add a recipe</a>
+
+</div>
 
 </body>
 </html>
