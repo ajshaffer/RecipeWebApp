@@ -6,6 +6,7 @@ session_start();
 require_once "connect.php";
 require_once "functions.php";
 
+
 $database = new Database(); # Instantiate the Database class
 $pdo = $database->getConnection(); # Get the PDO connection object
 
@@ -17,64 +18,63 @@ $err_pwd = "";
 
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
-  if (isset($_POST['login'])) {
-      // User submitted the login form
-      $email = isset($_POST['email']) ? trim(strtolower($_POST['email'])) : '';
-      $pwd = isset($_POST['pwd']) ? $_POST['pwd'] : '';
 
-      $userManager = new UserManager($pdo);
-      $userManager->login($email, $pwd);
+    $email = isset($_POST['email']) ? trim(strtolower($_POST['email'])) : '';
+    $pwd = isset($_POST['pwd']) ? $_POST['pwd'] : '';
 
-  } elseif (isset($_POST['signup'])) {
-      // User submitted the signup form
-      $fname = isset($_POST['fname']) ? trim($_POST['fname']) : '';
-      $lname = isset($_POST['lname']) ? trim($_POST['lname']) : '';
-      $email = isset($_POST['new-email']) ? trim(strtolower($_POST['new-email'])) : '';
-      $pwd = isset($_POST['pwd']) ? $_POST['pwd'] : '';
-      $joined = date("Y-m-d H:i:s");
+    $userManager = new UserManager($pdo);
+    $userManager->login($email, $pwd);
 
-      $userManager = new UserManager($pdo);
+    $fname = isset($_POST['fname']) ? trim($_POST['fname']) : '';
+    $lname = isset($_POST['lname']) ? trim($_POST['lname']) : '';
+    $email = isset($_POST['new-email']) ? trim(strtolower($_POST['new-email'])) : '';
+    $pwd = isset($_POST['pwd']) ? $_POST['pwd'] : '';
+    $joined = date("Y-m-d H:i:s");
 
-      if (empty($fname)) {
-          $errExists = 1;
-          $err_fname = "Missing first name.<br>";
-      }
+    $userManager = new UserManager($pdo);
 
-      if (empty($lname)) {
-          $errExists = 1;
-          $err_lname = "Missing last name.<br>";
-      }
+    if (empty($fname)) {
+        $errExists = 1;
+        $err_fname = "Missing first name.<br>";
+    }
 
-      if (empty($email)) {
-          $errExists = 1;
-          $err_email = "Missing email.<br>";
-      } else {
-          $sql = "SELECT email FROM users WHERE email = :field";
-          if (check_duplicates($pdo, $sql, $email)) {
-              $errExists = 1;
-              $err_email = "<span class='error'>The email is taken.</span>";
-          } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-              $errExists = 1;
-              $err_email .= "Email is invalid.";
-          }
-      }
+    if (empty($lname)) {
+        $errExists = 1;
+        $err_lname = "Missing last name.<br>";
+    }
 
-      if (empty($pwd)) {
-          $errExists = 1;
-          $err_pwd = "Missing password.<br>";
-      } else if (strlen($pwd) < 10) {
-          $errExists = 1;
-          $err_pwd .= "Password must be at least 10 characters in length.";
-      }
-      $pwd_hashed = password_hash($pwd, PASSWORD_DEFAULT);
+    if (empty($email)) {
+        $errExists = 1;
+        $err_email = "Missing email.<br>";
+    } else {
+        $sql = "SELECT email FROM users WHERE email = :field";
+        if (check_duplicates($pdo, $sql, $email)) {
+            $errExists = 1;
+            $err_email = "<span class='error'>The email is taken.</span>";
+        } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $errExists = 1;
+            $err_email .= "Email is invalid.";
+        }
+    }
 
-      # Registers user
-      $userManager->registerUser($fname, $lname, $email, $pwd_hashed, $joined, $errExists, $showForm);
+    if (empty($pwd)) {
+        $errExists = 1;
+        $err_pwd = "Missing password.<br>";
+    } else if (strlen($pwd) < 10) {
+        $errExists = 1;
+        $err_pwd .= "Password must be at least 10 characters in length.";
+    }
+    $pwd_hashed = password_hash($pwd, PASSWORD_DEFAULT);
 
-      $showForm = 0;
-  }
+    if ($errExists == 1) {
+        echo "<p class='error'>There are errors with your submission. Please make changes and re-submit.</p>";
+    } else {    
+        # Logs user in
+        $userManager->login($email, $pwd);
+
+        $showForm = 0;
+    }
 }
-
 
 
 if($showForm == 1){

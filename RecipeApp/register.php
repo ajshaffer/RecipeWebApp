@@ -21,7 +21,7 @@ $err_pwd = "";
 
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
-    // User submitted the signup form
+
     $fname = isset($_POST['fname']) ? trim($_POST['fname']) : '';
     $lname = isset($_POST['lname']) ? trim($_POST['lname']) : '';
     $email = isset($_POST['new-email']) ? trim(strtolower($_POST['new-email'])) : '';
@@ -63,10 +63,14 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     }
     $pwd_hashed = password_hash($pwd, PASSWORD_DEFAULT);
 
-    # Registers user
-    $userManager->registerUser($fname, $lname, $email, $pwd_hashed, $joined, $errExists, $showForm);
+    if ($errExists == 1) {
+        echo "<p class='error'>There are errors with your submission. Please make changes and re-submit.</p>";
+    } else {    
+        # Registers user
+        $userManager->registerUser($fname, $lname, $email, $pwd_hashed, $joined, $errExists, $showForm);
 
-    $showForm = 0;
+        $showForm = 0;
+    }
 }
   
 
