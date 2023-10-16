@@ -6,11 +6,6 @@ session_start();
 require_once "connect.php";
 require_once "functions.php";
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
-
-
 $database = new Database(); # Instantiate the Database class
 $pdo = $database->getConnection(); # Get the PDO connection object
 
@@ -54,23 +49,18 @@ class UserManager
         $sql = "SELECT * FROM users WHERE email = :email";
         $stmt = $this->db->prepare($sql);
         $stmt->bindValue(':email', $email);
-        $stmt->execute();
-
-        if (!$stmt->execute()) {
-            die('Database error: ' . implode(' ', $stmt->errorInfo()));
-        }        
+        $stmt->execute();  
 
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($user) {
             // SET SESSION VARIABLES
-            $_SESSION['ID'] = $user['ID'];
-            $_SESSION['email'] = $user['email'];
+            $_SESSION['ID'] = $user['user_id'];
             $_SESSION['fname'] = $user['fname'];
             $_SESSION['status'] = $user['status'];
         
             // REDIRECT TO CONFIRMATION PAGE
-            header("Location: confirm.php?state=2");
+            header("Location: account.php?state=2");
         } else {
             $this->err_login = "The email could not be found.<br> You must register first before logging in.";
         }
