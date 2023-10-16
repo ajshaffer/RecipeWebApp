@@ -16,12 +16,64 @@ $err_fname = "";
 $err_lname = "";
 $err_email = "";
 $err_pwd = "";
+$err_login = "";
 
 
+class UserManager
+{
+    private $db;
+    public $err_login;
 
+    public function __construct($pdo)
+    {
+        $this->db = $pdo;
+        $this->err_login = "";
+    }
+
+    public function registerUser($fname, $lname, $email, $pwd, $joined)
+    {
+        $joined = date("Y-m-d H:i:s");
+        $sql = "INSERT INTO users (fname, lname, email, pwd, joined) VALUES (:fname, :lname, :email, :pwd, :joined)";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':fname', $fname);
+        $stmt->bindValue(':lname', $lname);
+        $stmt->bindValue(':email', $email);
+        $stmt->bindValue(':pwd', $pwd);
+        $stmt->bindValue(':joined', $joined);
+
+        if ($stmt->execute()) {
+            return "success"; // You can return a success message
+        } else {
+            $this->err_login = "There's an error with your registration.";
+        }
+    }
+
+    public function login($email, $pwd)
+    {
+        $sql = "SELECT * FROM users WHERE email = :email";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':email', $email);
+        $stmt->execute();  
+
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($user) {
+            // SET SESSION VARIABLES
+            $_SESSION['ID'] = $user['ID'];
+            $_SESSION['email'] = $user['email'];
+            $_SESSION['fname'] = $user['fname'];
+            $_SESSION['status'] = $user['status'];
+        
+            // REDIRECT TO CONFIRMATION PAGE
+            header("Location: confirm.php?state=2");
+        } else {
+            $this->err_login = "The email could not be found.<br> You must register first before logging in.";
+        }
+    }
+}
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
-    // User submitted the signup form
+
     $fname = isset($_POST['fname']) ? trim($_POST['fname']) : '';
     $lname = isset($_POST['lname']) ? trim($_POST['lname']) : '';
     $email = isset($_POST['new-email']) ? trim(strtolower($_POST['new-email'])) : '';
@@ -47,7 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $sql = "SELECT email FROM users WHERE email = :field";
         if (check_duplicates($pdo, $sql, $email)) {
             $errExists = 1;
-            $err_email = "<span class='error'>The email is taken.</span>";
+            $err_email = "<span class='error'>The email is taken. Please choose a different email.</span>";
         } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $errExists = 1;
             $err_email .= "Email is invalid.";
@@ -63,10 +115,14 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     }
     $pwd_hashed = password_hash($pwd, PASSWORD_DEFAULT);
 
-    # Registers user
-    $userManager->registerUser($fname, $lname, $email, $pwd_hashed, $joined, $errExists, $showForm);
+    if ($errExists == 1) {
+        $err_login = "There's an error with your login.<br>";
+    } else {    
+        # Registers user
+        $userManager->registerUser($fname, $lname, $email, $pwd_hashed, $joined, $errExists, $showForm);
 
-    $showForm = 0;
+        $showForm = 0;
+    }
 }
   
 
@@ -81,7 +137,7 @@ if($showForm == 1){
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CookTogether</title>
+    <title>Registration</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -94,12 +150,12 @@ if($showForm == 1){
 
         <div class="right-side">
             <div class = "right-side-text">
-                <h2>Registration</h2>
+                <h1>Registration</h1>
             </div>
 
             <div class = "signup-form">
                 <!-- Form signup -->
-                <form id="signup-form" class="form" method="POST" action="index.php">
+                <form id="signup-form" class="form" method="POST" action="register.php">
 
                     <h2>Sign Up</h2>
 
@@ -118,7 +174,11 @@ if($showForm == 1){
                     <div class="form-group">
                         <label for="new-email">Email:</label>
                         <input type="email" id="new-email" name="new-email" required placeholder="Enter your email:" value="<?php if(isset($email)){ echo htmlspecialchars($email);}?>">
-                        <span class="error"> <?php echo $err_email;?></span><br><br>
+                        <?php
+                            if (!empty($err_email)) {
+                                echo "<div class='error'>$err_email</div>";
+                            }
+                        ?>
                     </div>
 
                     <div class="form-group">
