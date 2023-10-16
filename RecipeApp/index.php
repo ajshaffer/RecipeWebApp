@@ -6,6 +6,10 @@ session_start();
 require_once "connect.php";
 require_once "functions.php";
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+
 
 $database = new Database(); # Instantiate the Database class
 $pdo = $database->getConnection(); # Get the PDO connection object
@@ -16,6 +20,64 @@ $errExists = 0;
 $err_email = "";
 $err_pwd = "";
 
+class UserManager
+{
+    private $db;
+    public $err_login;
+
+    public function __construct($pdo)
+    {
+        $this->db = $pdo;
+        $this->err_login = "";
+    }
+
+    public function registerUser($fname, $lname, $email, $pwd, $joined)
+    {
+        $joined = date("Y-m-d H:i:s");
+        $sql = "INSERT INTO users (fname, lname, email, pwd, joined) VALUES (:fname, :lname, :email, :pwd, :joined)";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':fname', $fname);
+        $stmt->bindValue(':lname', $lname);
+        $stmt->bindValue(':email', $email);
+        $stmt->bindValue(':pwd', $pwd);
+        $stmt->bindValue(':joined', $joined);
+
+        if ($stmt->execute()) {
+            return "success"; // You can return a success message
+        } else {
+            throw new Exception("Registration failed.");
+        }
+    }
+
+    public function login($email, $pwd)
+    {
+        $sql = "SELECT * FROM users WHERE email = :email";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':email', $email);
+        $stmt->execute();
+
+        if (!$stmt->execute()) {
+            die('Database error: ' . implode(' ', $stmt->errorInfo()));
+        }        
+
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($user) {
+            // SET SESSION VARIABLES
+            $_SESSION['ID'] = $user['ID'];
+            $_SESSION['email'] = $user['email'];
+            $_SESSION['fname'] = $user['fname'];
+            $_SESSION['status'] = $user['status'];
+        
+            // REDIRECT TO CONFIRMATION PAGE
+            header("Location: confirm.php?state=2");
+        } else {
+            $this->err_login = "The email could not be found.<br> You must register first before logging in.";
+        }
+    }
+}
+
+
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
@@ -23,56 +85,24 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $pwd = isset($_POST['pwd']) ? $_POST['pwd'] : '';
 
     $userManager = new UserManager($pdo);
-    $userManager->login($email, $pwd);
 
-    $fname = isset($_POST['fname']) ? trim($_POST['fname']) : '';
-    $lname = isset($_POST['lname']) ? trim($_POST['lname']) : '';
-    $email = isset($_POST['new-email']) ? trim(strtolower($_POST['new-email'])) : '';
-    $pwd = isset($_POST['pwd']) ? $_POST['pwd'] : '';
     $joined = date("Y-m-d H:i:s");
-
-    $userManager = new UserManager($pdo);
-
-    if (empty($fname)) {
-        $errExists = 1;
-        $err_fname = "Missing first name.<br>";
-    }
-
-    if (empty($lname)) {
-        $errExists = 1;
-        $err_lname = "Missing last name.<br>";
-    }
 
     if (empty($email)) {
         $errExists = 1;
-        $err_email = "Missing email.<br>";
-    } else {
-        $sql = "SELECT email FROM users WHERE email = :field";
-        if (check_duplicates($pdo, $sql, $email)) {
-            $errExists = 1;
-            $err_email = "<span class='error'>The email is taken.</span>";
-        } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $errExists = 1;
-            $err_email .= "Email is invalid.";
-        }
+        $err_email = "Please enter your email.<br>";
     }
 
     if (empty($pwd)) {
         $errExists = 1;
         $err_pwd = "Missing password.<br>";
-    } else if (strlen($pwd) < 10) {
-        $errExists = 1;
-        $err_pwd .= "Password must be at least 10 characters in length.";
     }
-    $pwd_hashed = password_hash($pwd, PASSWORD_DEFAULT);
 
     if ($errExists == 1) {
-        echo "<p class='error'>There are errors with your submission. Please make changes and re-submit.</p>";
+        $err_login .= "There's an error with your login.<br>";
     } else {    
         # Logs user in
         $userManager->login($email, $pwd);
-
-        $showForm = 0;
     }
 }
 
@@ -86,45 +116,58 @@ if($showForm == 1){
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CookTogether</title>
+    <title>Login</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-<div class = "container">
-    <div class = "left-side left-side-login"> 
+<div class="container">
+
+    <div class = "left-side left-side-registration">
         <!-- Image placed here with CSS -->
     </div>
 
     <div class="right-side">
-        <div class = "right-side-text">
+        <div class="right-side-text">
             <h1>Welcome to LetsCook</h1>
             <p>Cook at <u>home</u>. Share <u>recipes</u>. Save <u>money</u>.</p>
         </div>
-
-        <div class = "login-form">
-        <!-- Form login -->
+        <div class="login-form">
+            <h2>Login</h2>
+            <?php
+            if (!empty($err_email) || !empty($err_pwd)) {
+                echo "<div class='error'>There are errors with your submission.<br>Please make changes and re-submit.</div>";
+            }
+            ?>
             <form id="login-form" class="form" method="POST" action="index.php">
-
-                <h2>Login</h2>
-
                 <div class="form-group">
                     <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" required placeholder="Enter your email:" value="<?php if(isset($email)){ echo htmlspecialchars($email);}?>" size="30">
-                    <span class="error"> <?php echo $err_email;?></span><br><br>
+                    <input type="email" id="email" name="email" required placeholder="Enter your email:" value="<?php if (isset($email)) {
+                        echo htmlspecialchars($email);
+                    } ?>" size="30">
+                    <?php
+                        if (!empty($err_email)) {
+                            echo "<div class='error'>$err_email</div>";
+                        }
+                    ?>
                 </div>
-
                 <div class="form-group">
                     <label for="pwd">Password:</label>
                     <input type="password" id="pwd" name="pwd" required placeholder="Enter your password:" size="30">
-                    <span class="error"> <?php echo $err_pwd;?></span><br>
+                    <?php
+                         if (!empty($err_pwd)) {
+                            echo "<div class='error'>$err_pwd</div>";
+                        }
+                    ?>
                 </div>
-
-                <button type="submit" name = "login">Login</button>
-
-                <div class = "register-link">
-                    <p>Don't have an account? 
-                    <a href="register.php">Sign up</a></p>
+                <button type="submit" name="login">Login</button>
+                <div class="register-link">
+                    <p>Don't have an account? <a href="register.php">Sign up</a></p>
+                    <?php
+                        if (!empty($userManager->err_login)) {
+                            echo "<div class='error'>" . $userManager->err_login . "</div>";
+                        }
+                    ?>
                 </div>
             </form>
         </div>

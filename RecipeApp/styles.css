@@ -29,7 +29,7 @@ body {
 
 .left-side.left-side-login{
     flex: 2;
-    background-image: url(/images/login-food.jpg);
+    background-image: url(/RecipeWebApp/images/login-food.jpg);
     background-size: cover;
     background-position: center;
     padding: 20px;
@@ -39,7 +39,7 @@ body {
 
 .left-side.left-side-registration{
     flex: 2;
-    background-image: url(/images/registration-food.jpg);
+    background-image: url(/RecipeWebApp/images/registration-food.jpg);
     background-size: cover;
     background-position: center;
     padding: 20px;

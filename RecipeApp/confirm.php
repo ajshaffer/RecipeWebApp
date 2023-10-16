@@ -17,7 +17,7 @@ if($state == 1){
     echo "You have been logged out.";
 }
 if($state == 2){
-    echo "Welcome back, <strong>{$_SESSION['fname']}</strong>";
+    echo "<p>Welcome back,<strong>{$_SESSION['fname']}</strong></p>";
 }
 ?>
 
