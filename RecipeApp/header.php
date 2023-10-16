@@ -49,6 +49,14 @@ $rightNow = time();
                     if(isset($_SESSION['ID'])){
                         echo "<a href='contentsearch.php'>Search</a>";
                     }
+                    if(isset($_SESSION['ID'])){
+                        echo "<a href='logout.php'>Logout</a>";
+                    }
+                    if(!isset($_SESSION['ID'])){
+                        echo "<a href='index.php'>Login</a>";
+                    }
+                    
+                    
                 ?>
             </div>
         </nav>

@@ -59,13 +59,13 @@ class UserManager
 
         if ($user) {
             // SET SESSION VARIABLES
-            $_SESSION['ID'] = $user['ID'];
+            $_SESSION['ID'] = $user['user_id'];
             $_SESSION['email'] = $user['email'];
             $_SESSION['fname'] = $user['fname'];
             $_SESSION['status'] = $user['status'];
         
             // REDIRECT TO CONFIRMATION PAGE
-            header("Location: confirm.php?state=2");
+            header("Location: account.php?state=2");
         } else {
             $this->err_login = "The email could not be found.<br> You must register first before logging in.";
         }
