@@ -30,7 +30,7 @@
     selectHelper:true, //draw a place holder while user drags an event 
     select: function(start, end, allDay) //add new events 
     {
-     var title = prompt("Enter Event Title"); //what pops up when you add an event
+     var title = prompt("Search"); //what pops up when you add an event
      if(title) //checks if title has some value
      {
       var start = $.fullCalendar.formatDate(start, "Y-MM-DD HH:mm:ss"); //generate start date time and store into a variable

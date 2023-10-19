@@ -5,6 +5,7 @@ require_once "connect.php";
 $database = new Database(); // Instantiate the Database class
 $pdo = $database->getConnection(); // Get the PDO connection object
 
+$currentFile = basename($_SERVER['SCRIPT_FILENAME']);
 
 if (isset($_GET['search'])){
     if (empty($_GET['term'])) {
@@ -25,11 +26,7 @@ if (isset($_GET['search'])){
 
         }
 
-        if (!empty($result)){
-            foreach ($result as $row){
-                echo $row['fname'] . " " . $row['lname'] . "<br>";
-            }
-        }
+        
     }
 }
 ?>
@@ -38,6 +35,14 @@ if (isset($_GET['search'])){
 <form name="mysearch" id="mysearch" method="get" action="<?php echo $currentFile;?>">
     <label for="term">Search Employee First Name:</label>
     <input type="search" id="term" name="term" placeholder="Search">
+    <br><br>
+    <?php 
+        if (!empty($result)){
+            foreach ($result as $row){
+                echo $row['fname'] . " " . $row['lname'] . "<br>";
+            }
+        }
+    ?>
     <input type="submit" id="search" name="search" value="Search">
     <br><br>
 
