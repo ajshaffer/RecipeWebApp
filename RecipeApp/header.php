@@ -26,7 +26,7 @@ $rightNow = time();
 </head>
 <header>
     <div>
-        <nav>
+        <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
             <div class = "navbar-left">
                 <?php
                     if(isset($_SESSION['ID'])){
@@ -51,9 +51,6 @@ $rightNow = time();
                     }
                     if(isset($_SESSION['ID'])){
                         echo "<a href='logout.php'>Logout</a>";
-                    }
-                    if(!isset($_SESSION['ID'])){
-                        echo "<a href='index.php'>Login</a>";
                     }
                     
                     

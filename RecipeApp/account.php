@@ -6,6 +6,7 @@ $pageName = "User Profile";
 
 require_once "connect.php";
 require_once "functions.php";
+require_once "header.php";
 
 checkLogin();
 
@@ -31,9 +32,6 @@ $state = $_GET['state'];
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
-        <!-- Add navigation, logo, and other header elements here -->
-    </header>
     <div class="container">
         <h1>User Profile</h1>
         <p>Welcome, <?php echo $user_name; ?>!</p>
