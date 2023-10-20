@@ -30,7 +30,6 @@ $state = 1;
             </script>
         </head>
         <body>
-            <h3>You have been logged out. You will be redirected to the login page.</h3>
-            <p>Redirecting in <span id="countdown">3</span> seconds.</p>
+            <h3>You have been logged out. You will be returned to the login page in <span id="countdown">3</span> seconds.</h3>
         </body>
     </html>

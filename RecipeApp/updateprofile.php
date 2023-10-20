@@ -23,6 +23,7 @@ $err_fname = "";
 $err_lname = "";
 $err_email = "";
 
+
 class UserManager
 {
     private $db;
@@ -171,6 +172,7 @@ if($showForm == 1){
     $fname = $row['fname'];
     ?>
 
+<div class = "body-container">
 <h1>Update Your Profile</h1>
     <form name="myFormUpdate" id="myFormUpdate" method="post" action="updateprofile.php">
 
@@ -210,7 +212,9 @@ if($showForm == 1){
 
     </form>
 
+    </div>
     <?php
+   
 }
 
 require_once "footer.php";
