@@ -1,6 +1,6 @@
-/* * {
-    border: 2px solid red;
-} */
+* {
+    border: 1px solid red;
+}
 
 
 .success {
@@ -10,11 +10,32 @@
     color: #AD0000;
 }
 
+.bg-dark {
+    background-color: #003 !important;
+  }
 
-body {
+.navbar .navbar-brand {
+    color: #fcf !important;
+}
+
+.navbar a {
+    color: white; /* Text color for links */
+    padding: 10px 20px; /* Spacing around the links */
+    text-decoration: none; /* Remove underlines from links */
+}
+
+
+.navbar a:hover {
+    background-color: #555;
+    color: white;
+    text-decoration: none;
+}
+
+
+.body-container {
     font-family: Palatino, "Palatino LT STD", "Palatino Linotype", "Book Antiqua", Georgia, serif;
     background-color: #f0f0f0;
-    margin: 0;
+    margin: 1px;
     padding: 0;
     display: flex;
     justify-content: center;
@@ -96,10 +117,14 @@ label {
 input[type = "email"],
 input[type = "password"],
 input[type = "text"] {
-    width: 100%;
+    width: fit-content;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 3px;
+}
+
+#new_pwd{
+    margin-bottom: 5px;
 }
 
 button {
