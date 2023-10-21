@@ -7,59 +7,28 @@ $pdo = $database->getConnection(); // Get the PDO connection object
 
 $currentFile = basename($_SERVER['SCRIPT_FILENAME']);
 
-$recipeName=array();
+echo "Add a recipe to meal planner " . $_GET['t']; 
 
-if (isset($_GET['search'])){
-    if (empty($_GET['term'])) {
-        echo "<p class='error'> Empty Search Field. Please try again.</p>";
-    }else{
-        $term = trim($_GET['term']) . "%";
 
-        //select from database
-        $sql = "SELECT title FROM recipes WHERE title LIKE :term";
+
+if ($_SERVER['REQUEST_METHOD'] == "POST"){
+    if (isset($_POST['day'])) {$day = $_POST['day'];}
+    if (isset($_POST['meal'])) {$meal = $_POST['meal'];}
+    $recipeName = $_POST['recName'];
+
+    $sql = "INSERT INTO mealplanner (recipeName, day, meal) VALUES (:recipeName, :day, :meal)";
         $stmt = $pdo->prepare($sql);
-        $stmt->bindValue(':term', $term);
-        $stmt->execute();
-        $row = $stmt->fetch();
-        if (empty($row)){
-            echo"<p class = 'error'>No results found for " . htmlspecialchars($_GET['term']) . ". Please try again.</p>";
-        }else{
-            echo "<p class = 'success'>We found results for " . htmlspecialchars($_GET['term']) . ". Here they are: </p> ";
-
-        }
-
-        if (!empty($row)){
-            
-            echo $row['title'] . "<br>";
-
-            array_push($recipeName,$row['title']);
-
-            
-            
-            
-        }
-
+        $stmt->bindValue(':recipeName', $recipeName);
+        $stmt->bindValue(':day', $day);
+        $stmt->bindValue(':meal', $meal);
         
-    }
-}
-
-if (isset($_GET['submit'])){
-
-    echo "slay"; 
-
-    print_r($recipeName);
-
+        $stmt->execute();
 }
 ?>
 
-<p>Please enter the beginning of the employee's first name: </p>
-<form name="mysearch" id="mysearch" method="get" action="<?php echo $currentFile;?>">
-    <label for="term">Search Employee First Name:</label>
-    <input type="search" id="term" name="term" placeholder="Search">
-    <br><br>
-   
-    <input type="submit" id="search" name="search" value="Search">
-    <br><br>
+
+<form name="mealplan" id="mealplan" method="post" action="<?php echo $currentFile;?>">
+    
 
 
         <p>Which day do you want to add this recipe to? </p>
@@ -99,6 +68,8 @@ if (isset($_GET['submit'])){
         <br>
 
         <br><br>
+
+        <input type="hidden" id="recName" name="recName" value="<?php echo $_GET['t']; ?>">
 
         <input type="submit" id="submit" name="submit" value="Add Recipe">
     
