@@ -38,11 +38,11 @@ if (isset($_GET['search'])){
 
 <!DOCTYPE html>
 <html>
-<style>
-table, th, td {
-  border:1px solid black;
-}
-</style>
+
+<head>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
 <body>
 
 <h2>Meal Planner</h2>
