@@ -7,6 +7,8 @@ $pdo = $database->getConnection(); // Get the PDO connection object
 
 $currentFile = basename($_SERVER['SCRIPT_FILENAME']);
 
+$recipeName = "";
+
 if (isset($_GET['search'])){
     if (empty($_GET['term'])) {
         echo "<p class='error'> Empty Search Field. Please try again.</p>";
@@ -14,16 +16,25 @@ if (isset($_GET['search'])){
         $term = trim($_GET['term']) . "%";
 
         //select from database
-        $sql = "SELECT fname, lname FROM users WHERE fname LIKE :term ORDER BY fname";
+        $sql = "SELECT title FROM recipes WHERE title LIKE :term";
         $stmt = $pdo->prepare($sql);
         $stmt->bindValue(':term', $term);
         $stmt->execute();
-        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        if (empty($result)){
+        $row = $stmt->fetch();
+        if (empty($row)){
             echo"<p class = 'error'>No results found for " . htmlspecialchars($_GET['term']) . ". Please try again.</p>";
         }else{
             echo "<p class = 'success'>We found results for " . htmlspecialchars($_GET['term']) . ". Here they are: </p> ";
 
+        }
+
+        if (!empty($row)){
+            
+            echo $row['title'] . "<br>";
+
+            $recipeName = $row['title'];
+            
+            
         }
 
         
@@ -36,13 +47,7 @@ if (isset($_GET['search'])){
     <label for="term">Search Employee First Name:</label>
     <input type="search" id="term" name="term" placeholder="Search">
     <br><br>
-    <?php 
-        if (!empty($result)){
-            foreach ($result as $row){
-                echo $row['fname'] . " " . $row['lname'] . "<br>";
-            }
-        }
-    ?>
+   
     <input type="submit" id="search" name="search" value="Search">
     <br><br>
 
@@ -84,6 +89,8 @@ if (isset($_GET['search'])){
         <br>
 
         <br><br>
+
+        <input type="submit" id="submit" name="submit" value="Add Recipe">
     
 </form>
 
