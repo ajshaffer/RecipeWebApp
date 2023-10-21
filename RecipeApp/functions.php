@@ -19,3 +19,20 @@ function checkLogin()
         exit();
     }
 }
+
+function recipeDay($pdo, $day)
+{
+    $sql = "SELECT recipeName FROM mealplanner WHERE day LIKE :day";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindValue(':day', $day);
+    $stmt->execute();
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    if (empty($result)){
+        echo"<p class = 'error'>No recipes saved to this day yet</p>";
+    }else{
+        foreach ($result as $row){
+            echo $row['recipeName'] . "<br>";
+
+    }
+}
+}

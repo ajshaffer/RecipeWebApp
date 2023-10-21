@@ -1,6 +1,7 @@
 <?php
 $currentFile = basename($_SERVER['SCRIPT_FILENAME']);
 require_once "connect.php";
+require_once "functions.php"; 
 
 $database = new Database(); // Instantiate the Database class
 $pdo = $database->getConnection(); // Get the PDO connection object
@@ -58,20 +59,35 @@ table, th, td {
 
   </tr>
   <tr>
-    <td>Example</td>
-    <td>Example</td>
-    <td>Example</td>
-    <td>Example</td>
-    <td>Example</td>
-    <td>Example</td>
-    <td>Example</td>
+    <td><?php 
+    $day = "sun"; 
+    recipeDay($pdo, $day) ?>
+    </td>
+    <td><?php 
+    $day = "mon"; 
+    recipeDay($pdo, $day) ?></td>
+    <td><?php 
+    $day = "tue"; 
+    recipeDay($pdo, $day) ?></td>
+    <td><?php 
+    $day = "wed"; 
+    recipeDay($pdo, $day) ?></td>
+    <td><?php 
+    $day = "thu"; 
+    recipeDay($pdo, $day) ?></td>
+    <td><?php 
+    $day = "fri"; 
+    recipeDay($pdo, $day) ?></td>
+    <td><?php 
+    $day = "sat"; 
+    recipeDay($pdo, $day) ?></td>
   </tr>
  
 </table>
 
-<p>Please enter the beginning of the employee's first name: </p>
+<p>Please search for recipe name: </p>
 <form name="mysearch" id="mysearch" method="get" action="<?php echo $currentFile;?>">
-    <label for="term">Search Employee First Name:</label>
+    <label for="term">Search Recipe Name:</label>
     <input type="search" id="term" name="term" placeholder="Search">
     <input type="submit" id="search" name="search" value="Search">
     <br><br>
