@@ -7,7 +7,7 @@ $pdo = $database->getConnection(); // Get the PDO connection object
 
 $currentFile = basename($_SERVER['SCRIPT_FILENAME']);
 
-$recipeName = "";
+$recipeName=array();
 
 if (isset($_GET['search'])){
     if (empty($_GET['term'])) {
@@ -32,13 +32,23 @@ if (isset($_GET['search'])){
             
             echo $row['title'] . "<br>";
 
-            $recipeName = $row['title'];
+            array_push($recipeName,$row['title']);
+
+            
             
             
         }
 
         
     }
+}
+
+if (isset($_GET['submit'])){
+
+    echo "slay"; 
+
+    print_r($recipeName);
+
 }
 ?>
 
