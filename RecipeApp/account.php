@@ -29,10 +29,6 @@ $user_name = $_SESSION['fname'];
     <div class="body-container">
         <h1>User Profile</h1>
         <p>Welcome, <?php echo $user_name; ?>!</p>
-
-        <div class="profile-info">
-            <p>User ID: <?php echo $user_id; ?></p>
-        </div>
     </div>
 
 </body>

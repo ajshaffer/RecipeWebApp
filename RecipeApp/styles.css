@@ -1,5 +1,7 @@
 * {
-    border: 1px solid red;
+    /* border: 1px solid red; */
+    font-family: Palatino, "Palatino LT STD", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+    background-color: #f0f0f0;
 }
 
 
@@ -11,19 +13,15 @@
 }
 
 .bg-dark {
-    background-color: #003 !important;
+    background-color: #003;
   }
 
-.navbar .navbar-brand {
-    color: #fcf !important;
-}
 
 .navbar a {
-    color: white; /* Text color for links */
-    padding: 10px 20px; /* Spacing around the links */
-    text-decoration: none; /* Remove underlines from links */
+    color: white; 
+    padding: 10px 20px; 
+    text-decoration: none; 
 }
-
 
 .navbar a:hover {
     background-color: #555;
@@ -31,16 +29,21 @@
     text-decoration: none;
 }
 
+.navbar-brand {
+    pointer-events: none;
+}
+
+
+.logout-button{
+    color: white !important;
+}
+
 
 .body-container {
-    font-family: Palatino, "Palatino LT STD", "Palatino Linotype", "Book Antiqua", Georgia, serif;
-    background-color: #f0f0f0;
-    margin: 1px;
-    padding: 0;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    flex-direction: column;
 }
 
 .container {
@@ -134,4 +137,13 @@ button {
     border-radius: 3px;
     padding: 10px 20px;
     cursor: pointer;
+}
+
+.update_profile{
+    margin-top: 20px;
+    margin-bottom:20px;
+    padding: 15px;
+    border: 2px solid rgb(85, 85, 85, .5);
+    border-radius: 5px;
+    box-shadow: 0 3px 10px rgb(0 0 0 / .2);
 }

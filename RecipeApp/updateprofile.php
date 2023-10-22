@@ -172,47 +172,53 @@ if($showForm == 1){
     $fname = $row['fname'];
     ?>
 
+
 <div class = "body-container">
-<h1>Update Your Profile</h1>
-    <form name="myFormUpdate" id="myFormUpdate" method="post" action="updateprofile.php">
+    <div class="update_profile">
+        <h1>Update Your Profile</h1>
+    <div class="form">
+        <form name="myFormUpdate" id="myFormUpdate" method="post" action="updateprofile.php">
 
-        <label for="fname">First Name:</label>
-        <input type="text" id="fname" name="fname" placeholder="Enter your first name:" maxlength="30" value="<?php if(isset($fname)){echo htmlspecialchars($fname);}else{echo htmlspecialchars($row['fname']);}?>">
-        <span class="error"> <?php echo $err_fname;?></span><br>
+            <label for="fname">First Name:</label>
+            <input type="text" id="fname" name="fname" placeholder="Enter your first name:" maxlength="30" value="<?php if(isset($fname)){echo htmlspecialchars($fname);}else{echo htmlspecialchars($row['fname']);}?>">
+            <span class="error"> <?php echo $err_fname;?></span><br>
 
-        <label for="lname">Last Name:</label>
-        <input type="text" id="lname" name="lname" placeholder="Enter your last name:" maxlength="50" value="<?php if(isset($lname)){echo htmlspecialchars($lname);}else{echo htmlspecialchars($row['lname']);}?>">
-        <span class="error"> <?php echo $err_lname;?></span><br><br>
+            <label for="lname">Last Name:</label>
+            <input type="text" id="lname" name="lname" placeholder="Enter your last name:" maxlength="50" value="<?php if(isset($lname)){echo htmlspecialchars($lname);}else{echo htmlspecialchars($row['lname']);}?>">
+            <span class="error"> <?php echo $err_lname;?></span><br><br>
 
-        <hr>
+            <hr>
 
-        <div class="form-field">
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" placeholder="Enter your email:" value="<?php if(isset($email)){echo htmlspecialchars($email);}else{echo htmlspecialchars($row['email']);}?>">
-            <span class="error"> <?php if(!empty($err_email)) echo $err_email;?></span><br><br>
+            <div class="form-field">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email:" value="<?php if(isset($email)){echo htmlspecialchars($email);}else{echo htmlspecialchars($row['email']);}?>">
+                <span class="error"> <?php if(!empty($err_email)) echo $err_email;?></span><br><br>
+            </div>
+
+            <hr>
+
+            <!--Hidden Fields-->
+            <input type="hidden" name="origEmail" value="<?php echo $row['email'];?>">
+            <input type="hidden" name="ID" value="<?php echo $row['user_id'];?>">
+
+
+
+            <label for="new_pwd">New password:</label>
+            <input type="password" id="new_pwd" name="new_pwd" placeholder="Enter your new password" size="40"><span class="error"> <?php echo $err_pwd;?></span>
+            <br>
+            <label for="confirm_pwd">Confirm password:</label>
+            <input type="password" id="confirm_pwd" name="confirm_pwd" placeholder="Confirm password" size="40"><span class="error"> <?php echo $err_pwd;?></span>
+
+
+            <br>
+            <button type="submit" class="btn btn-primary">Submit</button>
+
+        </form>
+
         </div>
-
-        <hr>
-
-        <!--Hidden Fields-->
-        <input type="hidden" name="origEmail" value="<?php echo $row['email'];?>">
-        <input type="hidden" name="ID" value="<?php echo $row['user_id'];?>">
-
-
-
-        <label for="new_pwd">New password:</label>
-        <input type="password" id="new_pwd" name="new_pwd" placeholder="Enter your new password" size="40"><span class="error"> <?php echo $err_pwd;?></span>
-        <br>
-        <label for="confirm_pwd">Confirm password:</label>
-        <input type="password" id="confirm_pwd" name="confirm_pwd" placeholder="Confirm password" size="40"><span class="error"> <?php echo $err_pwd;?></span>
-
-
-        <br>
-        <input type="submit" id="submit" value="Submit">
-
-    </form>
-
     </div>
+
+</div>
     <?php
    
 }
