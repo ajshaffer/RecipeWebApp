@@ -21,10 +21,6 @@ $user_name = $_SESSION['fname'];
 
 ?>
 
-
-
-
-
 <body>
     <div class="body-container">
         <h1>User Profile</h1>
