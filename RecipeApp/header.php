@@ -24,25 +24,40 @@ $rightNow = time();
 
 
 <header>
-    <div>
-        <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
             <?php
-                if(isset($_SESSION['ID'])){
-                    echo '<a class="navbar-brand" href="#">CookTogether</a>';
-                    echo "<a href='contentdisplay.php'>Feed</a>";
-                    echo "<a href ='contentadd.php'>Post</a>";
-                    echo "<a href ='contentmanage.php'>Manage Your Posts</a>";
-                    echo "<a href='account.php'>Profile</a>";
+            if (isset($_SESSION['ID'])) {
+                echo '<a class="navbar-brand" href="#">CookTogether</a>';
+                echo "<a href='#'>Feed</a>";
+                echo "<a href ='#'>Post</a>";
+                echo "<a href ='#'>Manage Your Posts</a>";
+                echo "<a href='account.php'>Profile</a>";
+                
+                if ($currentFile == 'account.php'){
                     echo "<a href ='updateprofile.php'>Update Profile</a>";
-                    echo '<form class="form-inline my-2 my-lg-0">
-                            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                        </form>';
-                    echo "<a href='logout.php'>Logout</a>";
                 }
+
+                // This is where you align the search form and logout button to the right.
+                echo '<ul class="navbar-nav ml-auto">';
+                
+                // Search form
+                echo '<li class="nav-item">
+                            <form class="form-inline my-2 my-lg-0">
+                                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                            </form>
+                        </li>';
+
+                // Logout button
+                echo '<li class="nav-item">
+                            <a href="logout.php" class="nav-link bg-dark navbar-dark logout-button">Logout</a>
+                        </li>';
+
+                echo '</ul>';
+            }
             ?>
         </nav>
-    </div>
+
 </header>
 
 
