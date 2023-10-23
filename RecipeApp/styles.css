@@ -129,6 +129,7 @@ body, html {
 .form-group {
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
     padding-right: 22px;
     margin-bottom: 15px;
 }
@@ -144,6 +145,17 @@ input[type = "text"] {
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 3px;
+    margin-bottom: 5px;
+}
+
+label[for = "fname"],
+label[for = "lname"],
+label[for = "email"],
+label[for = "new_pwd"],
+label[for = "pwd"],
+label[for = "new_email"],
+label[for = "confirm_pwd"]{
+    font-size: 20px;
 }
 
 #new_pwd{
@@ -159,11 +171,21 @@ button {
     cursor: pointer;
 }
 
-.update_profile{
-    margin-top: 20px;
-    margin-bottom:20px;
-    padding: 15px;
-    border: 2px solid rgb(85, 85, 85, .5);
+.container-fluid.update-profile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; 
+}
+
+.update_profile {
+    max-width: 75%; 
+    padding: 20px;
+    background-color: #f2f2f2;
     border-radius: 5px;
-    box-shadow: 0 3px 10px rgb(0 0 0 / .2);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.update_profile h1 {
+    text-align: center;
 }
