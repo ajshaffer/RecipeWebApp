@@ -26,7 +26,7 @@ $rightNow = time();
 <header>
         <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
             <?php
-            echo '<a class="navbar-brand" href="#">CookTogether</a>';
+            echo '<a class="navbar-brand" href="#">LetsCook</a>';
             if (isset($_SESSION['ID'])) {
                 echo "<a href='#'>Feed</a>";
                 echo "<a href ='#'>Post</a>";

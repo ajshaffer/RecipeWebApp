@@ -5,6 +5,7 @@ session_start();
 
 require_once "connect.php";
 require_once "functions.php";
+require_once "header.php";
 
 
 $database = new Database(); # Instantiate the Database class
@@ -112,9 +113,9 @@ if($showForm == 1){
 </head>
 <body>
 
-<div class="container">
+<div class="container-fluid">
 
-    <div class = "left-side left-side-registration">
+    <div class = "left-side left-side-login">
         <!-- Image placed here with CSS -->
     </div>
 
@@ -151,7 +152,9 @@ if($showForm == 1){
                         }
                     ?>
                 </div>
+
                 <button type="submit" name="login">Login</button>
+
                 <div class="register-link">
                     <p>Don't have an account? <a href="register.php">Sign up</a></p>
                     <?php

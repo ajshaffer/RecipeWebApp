@@ -22,7 +22,7 @@ $user_name = $_SESSION['fname'];
 ?>
 
 <body>
-    <div class="body-container">
+    <div class="container">
         <h1>User Profile</h1>
         <p>Welcome, <?php echo $user_name; ?>!</p>
     </div>
