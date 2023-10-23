@@ -6,6 +6,7 @@ session_start();
 require_once "connect.php";
 require_once "functions.php";
 
+
 $database = new Database(); # Instantiate the Database class
 $pdo = $database->getConnection(); # Get the PDO connection object
 

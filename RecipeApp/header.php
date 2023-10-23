@@ -26,8 +26,8 @@ $rightNow = time();
 <header>
         <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
             <?php
+            echo '<a class="navbar-brand" href="#">CookTogether</a>';
             if (isset($_SESSION['ID'])) {
-                echo '<a class="navbar-brand" href="#">CookTogether</a>';
                 echo "<a href='#'>Feed</a>";
                 echo "<a href ='#'>Post</a>";
                 echo "<a href ='#'>Manage Your Posts</a>";
@@ -37,7 +37,6 @@ $rightNow = time();
                     echo "<a href ='updateprofile.php'>Update Profile</a>";
                 }
 
-                // This is where you align the search form and logout button to the right.
                 echo '<ul class="navbar-nav ml-auto">';
                 
                 // Search form
