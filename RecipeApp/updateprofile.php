@@ -173,10 +173,10 @@ if($showForm == 1){
     ?>
 
 
-<div class = "body-container">
+<div class = "container-fluid update-profile">
     <div class="update_profile">
         <h1>Update Your Profile</h1>
-    <div class="form">
+    <div class="form-group">
         <form name="myFormUpdate" id="myFormUpdate" method="post" action="updateprofile.php">
 
             <label for="fname">First Name:</label>
@@ -185,14 +185,14 @@ if($showForm == 1){
 
             <label for="lname">Last Name:</label>
             <input type="text" id="lname" name="lname" placeholder="Enter your last name:" maxlength="50" value="<?php if(isset($lname)){echo htmlspecialchars($lname);}else{echo htmlspecialchars($row['lname']);}?>">
-            <span class="error"> <?php echo $err_lname;?></span><br><br>
+            <span class="error"> <?php echo $err_lname;?></span>
 
             <hr>
 
             <div class="form-field">
                 <label for="email">Email:</label>
                 <input type="email" id="email" name="email" placeholder="Enter your email:" value="<?php if(isset($email)){echo htmlspecialchars($email);}else{echo htmlspecialchars($row['email']);}?>">
-                <span class="error"> <?php if(!empty($err_email)) echo $err_email;?></span><br><br>
+                <span class="error"> <?php if(!empty($err_email)) echo $err_email;?></span>
             </div>
 
             <hr>
@@ -206,11 +206,11 @@ if($showForm == 1){
             <label for="new_pwd">New password:</label>
             <input type="password" id="new_pwd" name="new_pwd" placeholder="Enter your new password" size="40"><span class="error"> <?php echo $err_pwd;?></span>
             <br>
+
             <label for="confirm_pwd">Confirm password:</label>
             <input type="password" id="confirm_pwd" name="confirm_pwd" placeholder="Confirm password" size="40"><span class="error"> <?php echo $err_pwd;?></span>
 
 
-            <br>
             <button type="submit" class="btn btn-primary">Submit</button>
 
         </form>

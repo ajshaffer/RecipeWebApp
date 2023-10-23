@@ -173,7 +173,7 @@ if($showForm == 1){
                     </div>
 
                     <div class="form-group">
-                        <label for="new-email">Email:</label>
+                        <label for="new_email">Email:</label>
                         <input type="email" id="new-email" name="new-email" required placeholder="Enter your email:" value="<?php if(isset($email)){ echo htmlspecialchars($email);}?>">
                         <?php
                             if (!empty($err_email)) {
