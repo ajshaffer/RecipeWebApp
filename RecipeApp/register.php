@@ -5,6 +5,7 @@ session_start();
 
 require_once "connect.php";
 require_once "functions.php";
+require_once "header.php";
 
 $database = new Database(); # Instantiate the Database class
 $pdo = $database->getConnection(); # Get the PDO connection object
@@ -143,7 +144,7 @@ if($showForm == 1){
 <body>
 
 
-<div class="container">
+<div class="container-fluid">
     <div class = "left-side left-side-registration">
         <!-- Image placed here with CSS -->
     </div>
@@ -162,13 +163,13 @@ if($showForm == 1){
                     <div class="form-group">
                         <label for="fname">First Name:</label>
                         <input type="text" id="fname" name="fname" required placeholder="Enter your first name:" maxlength="30" value="<?php if(isset($fname)){ echo htmlspecialchars($fname);}?>">
-                        <span class="error"> <?php echo $err_fname;?></span><br>
+                        <span class="error"> <?php echo $err_fname;?></span>
                     </div>
 
                     <div class="form-group">
                         <label for="lname">Last Name:</label>
                         <input type="text" id="lname" name="lname" required placeholder="Enter your last name:" maxlength="50" value="<?php if(isset($lname)){ echo htmlspecialchars($lname);}?>">
-                        <span class="error"> <?php echo $err_lname;?></span><br><br>
+                        <span class="error"> <?php echo $err_lname;?></span>
                     </div>
 
                     <div class="form-group">
@@ -184,7 +185,7 @@ if($showForm == 1){
                     <div class="form-group">
                         <label for="pwd">Password:</label>
                         <input type="password" id="pwd" name="pwd" required placeholder="Enter a password:">
-                        <span class="error"> <?php echo $err_pwd;?></span><br>
+                        <span class="error"> <?php echo $err_pwd;?></span>
                     </div>
 
                     <button type="submit" name = "signup">Sign Up</button>
