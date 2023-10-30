@@ -31,24 +31,24 @@ $rightNow = time();
                 echo "<a href='#'>Feed</a>";
                 echo "<a href ='#'>Post</a>";
                 echo "<a href ='#'>Manage Your Posts</a>";
-                echo "<a href='account.php'>Profile</a>";
+                echo "<a href='profile.php'>Profile</a>";
                 
-                if ($currentFile == 'account.php'){
+                if ($currentFile == 'profile.php'){
                     echo "<a href ='updateprofile.php'>Update Profile</a>";
                 }
 
                 echo '<ul class="navbar-nav ml-auto">';
                 
                 // Search form
-                echo '<li class="nav-item">
-                            <form class="form-inline my-2 my-lg-0">
-                                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                echo '<li class="nav-item-search bg-dark">
+                            <form class="form-inline my-2 my-lg-0 bg-dark search-button">
+                                <input class="form-control mr-sm-2" type="search" placeholder="Search..." aria-label="Search">
                                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                             </form>
                         </li>';
 
                 // Logout button
-                echo '<li class="nav-item">
+                echo '<li class="nav-item-logout">
                             <a href="logout.php" class="nav-link bg-dark navbar-dark logout-button">Logout</a>
                         </li>';
 
