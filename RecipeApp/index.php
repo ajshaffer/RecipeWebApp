@@ -7,6 +7,8 @@ require_once "connect.php";
 require_once "functions.php";
 require_once "header.php";
 
+include "../classes/userManager.class.php";
+
 
 $database = new Database(); # Instantiate the Database class
 $pdo = $database->getConnection(); # Get the PDO connection object
@@ -16,59 +18,6 @@ $errExists = 0;
 
 $err_email = "";
 $err_pwd = "";
-
-class UserManager
-{
-    private $db;
-    public $err_login;
-
-    public function __construct($pdo)
-    {
-        $this->db = $pdo;
-        $this->err_login = "";
-    }
-
-    public function registerUser($fname, $lname, $email, $pwd, $joined)
-    {
-        $joined = date("Y-m-d H:i:s");
-        $sql = "INSERT INTO users (fname, lname, email, pwd, joined) VALUES (:fname, :lname, :email, :pwd, :joined)";
-        $stmt = $this->db->prepare($sql);
-        $stmt->bindValue(':fname', $fname);
-        $stmt->bindValue(':lname', $lname);
-        $stmt->bindValue(':email', $email);
-        $stmt->bindValue(':pwd', $pwd);
-        $stmt->bindValue(':joined', $joined);
-
-        if ($stmt->execute()) {
-            return "success"; // You can return a success message
-        } else {
-            throw new Exception("Registration failed.");
-        }
-    }
-
-    public function login($email, $pwd)
-    {
-        $sql = "SELECT * FROM users WHERE email = :email";
-        $stmt = $this->db->prepare($sql);
-        $stmt->bindValue(':email', $email);
-        $stmt->execute();  
-
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if ($user) {
-            // SET SESSION VARIABLES
-            $_SESSION['ID'] = $user['user_id'];
-            $_SESSION['fname'] = $user['fname'];
-            $_SESSION['status'] = $user['status'];
-        
-            // REDIRECT TO CONFIRMATION PAGE
-            header("Location: account.php?state=2");
-        } else {
-            $this->err_login = "The email could not be found.<br> You must register first before logging in.";
-        }
-    }
-}
-
 
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
@@ -94,7 +43,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $err_login .= "There's an error with your login.<br>";
     } else {    
         # Logs user in
-        $userManager->login($email, $pwd);
+        $loginResult = $userManager->login($email, $pwd);
+
+        if ($loginResult === "success") {
+        } else {
+            $err_login = $loginResult; 
+        }
     }
 }
 
@@ -127,9 +81,9 @@ if($showForm == 1){
         <div class="login-form">
             <h2>Login</h2>
             <?php
-            if (!empty($err_email) || !empty($err_pwd)) {
-                echo "<div class='error'>There are errors with your submission.<br>Please make changes and re-submit.</div>";
-            }
+                if (!empty($err_email) || !empty($err_pwd)) {
+                    echo "<div class='error'>There are errors with your submission.<br>Please make changes and re-submit.</div>";
+                }
             ?>
             <form id="login-form" class="form" method="POST" action="index.php">
                 <div class="form-group">
@@ -150,6 +104,10 @@ if($showForm == 1){
                          if (!empty($err_pwd)) {
                             echo "<div class='error'>$err_pwd</div>";
                         }
+                        if (!empty($userManager->err_login)) {
+                            echo "<div class='error'>" . $userManager->err_login . "</div>";
+                        }
+
                     ?>
                 </div>
 
@@ -157,11 +115,6 @@ if($showForm == 1){
 
                 <div class="register-link">
                     <p>Don't have an account? <a href="register.php">Sign up</a></p>
-                    <?php
-                        if (!empty($userManager->err_login)) {
-                            echo "<div class='error'>" . $userManager->err_login . "</div>";
-                        }
-                    ?>
                 </div>
             </form>
         </div>
