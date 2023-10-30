@@ -51,11 +51,68 @@ class UserManager
                 $_SESSION['status'] = $user['status'];
 
                 // REDIRECT TO CONFIRMATION PAGE
-                header("Location: account.php");
+                header("Location: profile.php");
 
             }else{
                 $this->err_login = "Invalid password.";
             }
         }
     }
+
+    public function getProfileInfo($user_id){
+        $sql = "SELECT * FROM profiles WHERE user_id = ?";
+        $stmt = $this->db->prepare($sql);
+
+        if(!$stmt->execute(array($user_id))){
+            $stmt = null;
+            header("location: profile.php?error=stmtfailed");
+            exit();
+        }
+
+        if($stmt->rowCount() == 0){
+            $stmt = null;
+            header("location: profile.php?error=profileNotFound");
+            exit();
+        }
+
+        $profileData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return $profileData;
+
+    }
+
+    public function setNewProfileInfo($profileAbout, $profileTitle, $profileText, $user_id){
+        $sql = "UPDATE profiles SET profile_about =?, profile_introtitle = ?, profile_introtext = ? WHERE user_id = ?";
+
+        $stmt = $this->db->prepare($sql);
+
+        if(!$stmt->execute(array($profileAbout, $profileTitle, $profileText, $user_id))){
+            $stmt = null;
+            header("location: profile.php?error=stmtfailed");
+            exit();
+        }
+
+        $stmt = null;
+
+    }
+    
+    public function setProfileInfo($profileAbout, $profileTitle, $profileText, $user_id){
+        $sql = "INSERT INTO profiles (profile_about, profile_introtitle, profile_introtext, user_id) VALUES (?, ?, ?, ?)";
+
+        $stmt = $this->db->prepare($sql);
+
+        if(!$stmt->execute(array($profileAbout, $profileTitle, $profileText, $user_id))){
+            $stmt = null;
+            header("location: profile.php?error=stmtfailed");
+            exit();
+        }
+
+        $stmt = null;
+
+    }
+
+
+
+
+
 }
