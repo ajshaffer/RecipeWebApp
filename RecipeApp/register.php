@@ -7,6 +7,8 @@ require_once "connect.php";
 require_once "functions.php";
 require_once "header.php";
 
+include "../classes/userManager.class.php";
+
 $database = new Database(); # Instantiate the Database class
 $pdo = $database->getConnection(); # Get the PDO connection object
 
@@ -20,58 +22,6 @@ $err_pwd = "";
 $err_login = "";
 
 
-class UserManager
-{
-    private $db;
-    public $err_login;
-
-    public function __construct($pdo)
-    {
-        $this->db = $pdo;
-        $this->err_login = "";
-    }
-
-    public function registerUser($fname, $lname, $email, $pwd, $joined)
-    {
-        $joined = date("Y-m-d H:i:s");
-        $sql = "INSERT INTO users (fname, lname, email, pwd, joined) VALUES (:fname, :lname, :email, :pwd, :joined)";
-        $stmt = $this->db->prepare($sql);
-        $stmt->bindValue(':fname', $fname);
-        $stmt->bindValue(':lname', $lname);
-        $stmt->bindValue(':email', $email);
-        $stmt->bindValue(':pwd', $pwd);
-        $stmt->bindValue(':joined', $joined);
-
-        if ($stmt->execute()) {
-            return "success"; // You can return a success message
-        } else {
-            $this->err_login = "There's an error with your registration.";
-        }
-    }
-
-    public function login($email, $pwd)
-    {
-        $sql = "SELECT * FROM users WHERE email = :email";
-        $stmt = $this->db->prepare($sql);
-        $stmt->bindValue(':email', $email);
-        $stmt->execute();  
-
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if ($user) {
-            // SET SESSION VARIABLES
-            $_SESSION['ID'] = $user['user_id'];
-            $_SESSION['email'] = $user['email'];
-            $_SESSION['fname'] = $user['fname'];
-            $_SESSION['status'] = $user['status'];
-        
-            // REDIRECT TO CONFIRMATION PAGE
-            header("Location: account.php?state=2");
-        } else {
-            $this->err_login = "The email could not be found.<br> You must register first before logging in.";
-        }
-    }
-}
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
