@@ -215,3 +215,19 @@ button {
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
+
+
+.profileImage {
+    max-width: 150px; 
+    max-height: 150px; 
+    width: auto;       
+    height: auto;      
+}
+
+.edit-about-button {
+    height: auto; 
+    cursor: pointer;
+    padding-bottom: 5px;
+}
+
+

@@ -6,6 +6,8 @@ $pageName = "Update Profile";
 require_once "header.php";
 require_once "connect.php";
 
+include_once "../classes/userManager.class.php";
+
 checkLogin();
 
 $database = new Database(); # Instantiate the Database class
@@ -24,58 +26,6 @@ $err_lname = "";
 $err_email = "";
 
 
-class UserManager
-{
-    private $db;
-    public $err_login;
-
-    public function __construct($pdo)
-    {
-        $this->db = $pdo;
-        $this->err_login = "";
-    }
-
-    public function registerUser($fname, $lname, $email, $pwd, $joined)
-    {
-        $joined = date("Y-m-d H:i:s");
-        $sql = "INSERT INTO users (fname, lname, email, pwd, joined) VALUES (:fname, :lname, :email, :pwd, :joined)";
-        $stmt = $this->db->prepare($sql);
-        $stmt->bindValue(':fname', $fname);
-        $stmt->bindValue(':lname', $lname);
-        $stmt->bindValue(':email', $email);
-        $stmt->bindValue(':pwd', $pwd);
-        $stmt->bindValue(':joined', $joined);
-
-        if ($stmt->execute()) {
-            return "success"; // You can return a success message
-        } else {
-            throw new Exception("Registration failed.");
-        }
-    }
-
-    public function login($email, $pwd)
-    {
-        $sql = "SELECT * FROM users WHERE email = :email";
-        $stmt = $this->db->prepare($sql);
-        $stmt->bindValue(':email', $email);
-        $stmt->execute();  
-
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if ($user) {
-            // SET SESSION VARIABLES
-            $_SESSION['ID'] = $user['user_id'];
-            $_SESSION['fname'] = $user['fname'];
-            $_SESSION['status'] = $user['status'];
-        
-            // REDIRECT TO CONFIRMATION PAGE
-            header("Location: account.php?state=2");
-        } else {
-            $this->err_login = "The email could not be found.<br> You must register first before logging in.";
-        }
-    }
-}
-
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
@@ -83,8 +33,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $fname = trim($_POST['fname']);
     $lname = trim($_POST['lname']);
     $email = trim(strtolower($_POST['email']));
+    $profileAbout = trim($_POST['about']);
     $new_pwd = $_POST['new_pwd'];
     $confirm_pwd = $_POST['confirm_pwd'];
+
 
 
     //Error checking
@@ -117,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     if (empty($new_pwd) || empty($confirm_pwd)) {
         $errExists = 1;
         $err_pwd = "Missing password.<br>";
-    } else if (strlen($new_pwd) < 10) {
+    } elseif (strlen($new_pwd) < 10) {
         $errExists = 1;
         $err_pwd .= " Password must be at least 10 characters in length.";
     }
@@ -125,7 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     if (empty($confirm_pwd)) {
         $errExists = 1;
         $err_pwd = "Missing password.<br>";
-    } else if (strlen($confirm_pwd) < 10) {
+    } elseif (strlen($confirm_pwd) < 10) {
         $errExists = 1;
         $err_pwd .= " Password must be at least 10 characters in length.";
     }
@@ -188,6 +140,16 @@ if($showForm == 1){
             <span class="error"> <?php echo $err_lname;?></span>
 
             <hr>
+
+            <div class = "about">
+                <label for="about">About Me:</label>
+                <input type="text" id="about" name="about" placeholder="Tell us about yourself!" maxlength="1000" value="<?php if(isset($profileAbout)){echo htmlspecialchars($profileAbout);}else{echo htmlspecialchars($row['profile_about']);}?>">
+                <span class="error"> <?php echo $err_about;?></span>
+            </div>
+
+
+            <hr>
+
 
             <div class="form-field">
                 <label for="email">Email:</label>

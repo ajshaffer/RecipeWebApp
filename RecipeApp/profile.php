@@ -19,16 +19,34 @@ $user_name = $_SESSION['fname'];
 ?>
 
 <body>
+    <div class = "container profile-page">
+        <div class = "row about">
 
-<div class = 'container profile-page'>
-    <h3>ABOUT</h3>
-    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi ullam cum consectetur quae quam quas dolore amet veniam vel illum, expedita delectus? Reprehenderit autem alias quidem. Illum tenetur sit autem!</p>
+            <div class = "col profile-pic username">
+                <div class = "intro">
+                    <h1>Hi! I'm <?php echo $user_name; ?>
+                    <a href="updateprofile.php">
+                        <img src="../images/edit_FILL0_wght400_GRAD0_opsz24.png" alt="Edit About" id="editAboutBtn" class="edit-about-button">
+                    </a>
+                    </h1>
+                </div>
 
-    <h3>Hi! I'm <?php echo $user_name; ?> </h3>
-    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Repellendus provident veniam consequatur, laudantium animi et, recusandae, vitae perferendis ad sunt facere distinctio. Eos voluptates culpa amet non rem consequatur beatae.</p><br><br>
-</div>
+
+                <div class = "profile-pic">
+                    <img src="../images/istockphoto-610003972-612x612.jpg" alt="Profile Picture" class = "profileImage">
+                </div>
+            </div>
 
 
 
+            <div class = "col about">
+                <h3>About Me
+                </h3>
+                <p>
+                    <?php echo $profileAbout; ?>
+                </p>
+            </div>
+
+        </div>
+    </div>
 </body>
-</html>

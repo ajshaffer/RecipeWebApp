@@ -7,7 +7,7 @@ require_once "connect.php";
 require_once "functions.php";
 require_once "header.php";
 
-include "../classes/userManager.class.php";
+include_once "../classes/userManager.class.php";
 
 
 $database = new Database(); # Instantiate the Database class
@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     if ($errExists == 1) {
         $err_login .= "There's an error with your login.<br>";
-    } else {    
+    } else {
         # Logs user in
         $loginResult = $userManager->login($email, $pwd);
 
@@ -63,7 +63,6 @@ if($showForm == 1){
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
