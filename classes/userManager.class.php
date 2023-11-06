@@ -23,7 +23,7 @@ class UserManager
         $stmt->bindValue(':joined', $joined);
 
         if ($stmt->execute()) {
-            return "success"; 
+            return "success";
 
             header("Location: index.php");
         } else {
@@ -36,7 +36,7 @@ class UserManager
         $sql = "SELECT * FROM users WHERE email = :email";
         $stmt = $this->db->prepare($sql);
         $stmt->bindValue(':email', $email);
-        $stmt->execute();  
+        $stmt->execute();
 
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -59,11 +59,12 @@ class UserManager
         }
     }
 
-    public function getProfileInfo($user_id){
-        $sql = "SELECT * FROM profiles WHERE user_id = ?";
+    public function getProfileInfo($ID){
+        $sql = "SELECT * FROM profiles WHERE user_id = :userID";
         $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':user_ID', $ID);
 
-        if(!$stmt->execute(array($user_id))){
+        if(!$stmt->execute(array($ID))){
             $stmt = null;
             header("location: profile.php?error=stmtfailed");
             exit();
@@ -81,12 +82,13 @@ class UserManager
 
     }
 
-    public function setNewProfileInfo($profileAbout, $profileTitle, $profileText, $user_id){
-        $sql = "UPDATE profiles SET profile_about =?, profile_introtitle = ?, profile_introtext = ? WHERE user_id = ?";
-
+    public function updateProfileInfo($profileAbout, $ID){
+        $sql = "UPDATE profiles SET profile_about = :profile_about WHERE user_id = :ID";
         $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':profile_about', $profileAbout);
+        $stmt->bindValue(':user_id', $ID);
 
-        if(!$stmt->execute(array($profileAbout, $profileTitle, $profileText, $user_id))){
+        if(!$stmt->execute(array($profileAbout, $ID))){
             $stmt = null;
             header("location: profile.php?error=stmtfailed");
             exit();
@@ -96,12 +98,13 @@ class UserManager
 
     }
     
-    public function setProfileInfo($profileAbout, $profileTitle, $profileText, $user_id){
-        $sql = "INSERT INTO profiles (profile_about, profile_introtitle, profile_introtext, user_id) VALUES (?, ?, ?, ?)";
-
+    public function setProfileInfo($profileAbout, $ID){
+        $sql = "INSERT INTO profiles (profile_about, user_id) VALUES (:profileAbout, :user_id)";
         $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':profile_about', $profileAbout);
+        $stmt->bindValue(':user_id', $ID);
 
-        if(!$stmt->execute(array($profileAbout, $profileTitle, $profileText, $user_id))){
+        if(!$stmt->execute(array($profileAbout, $ID))){
             $stmt = null;
             header("location: profile.php?error=stmtfailed");
             exit();
