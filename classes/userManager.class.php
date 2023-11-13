@@ -22,12 +22,16 @@ class UserManager
         $stmt->bindValue(':pwd', $pwd);
         $stmt->bindValue(':joined', $joined);
 
-        if ($stmt->execute()) {
-            return "success";
 
+        if ($stmt->execute()){
+
+            $defaultPicture = "../images/default_profile.jpg";
+
+            $user_id = $this->db->lastInsertId();
+            $this->setProfileInfo("Welcome to my profile! I'm still crafting my unique story. Stay tuned for updates about my interests, experiences, and more.", $user_id, $defaultPicture);
             header("Location: index.php");
         } else {
-            throw new Exception("Registration failed.");
+            $this->err_login = "Unable to register user.";
         }
     }
 
@@ -62,60 +66,87 @@ class UserManager
     public function getProfileInfo($ID){
         $sql = "SELECT * FROM profiles WHERE user_id = :userID";
         $stmt = $this->db->prepare($sql);
-        $stmt->bindValue(':user_ID', $ID);
+        $stmt->bindValue(':userID', $ID);
+        $stmt->execute();
 
-        if(!$stmt->execute(array($ID))){
-            $stmt = null;
-            header("location: profile.php?error=stmtfailed");
-            exit();
+        $profileData = $stmt->fetch(PDO::FETCH_ASSOC);
+        $profilePicture = $this->getProfilePicture($ID);
+        if ($profilePicture) {
+            $_SESSION['profile_pic'] = $profilePicture;
         }
 
-        if($stmt->rowCount() == 0){
-            $stmt = null;
-            header("location: profile.php?error=profileNotFound");
-            exit();
+        if(empty($profileData)){
+            $this->err_login = "No profile found for the user.";
+        } else {
+            $_SESSION['profileID'] = $profileData['profile_id'];
+            $_SESSION['profileAbout'] = $profileData['profile_about'];
+
+            $row = isset($row) ? $row : [];
+            $row['profile_about'] = $profileData['profile_about'];
         }
-
-        $profileData = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        return $profileData;
-
     }
 
-    public function updateProfileInfo($profileAbout, $ID){
-        $sql = "UPDATE profiles SET profile_about = :profile_about WHERE user_id = :ID";
+    public function updateProfileInfo($profileAbout, $ID, $profilePicture = null){
+        $sql = "UPDATE profiles SET profile_about = :profile_about WHERE user_id = :user_id";
         $stmt = $this->db->prepare($sql);
         $stmt->bindValue(':profile_about', $profileAbout);
         $stmt->bindValue(':user_id', $ID);
 
-        if(!$stmt->execute(array($profileAbout, $ID))){
+        if ($profilePicture) {
+            $this->updateProfilePicture($ID, $profilePicture);
+            $_SESSION['profile_pic'] = $profilePicture;
+        }
+
+        if(!$stmt->execute()){
             $stmt = null;
             header("location: profile.php?error=stmtfailed");
             exit();
         }
 
+        $_SESSION['profileAbout'] = $profileAbout;
+    
+
         $stmt = null;
 
+    }
+
+    public function setProfileInfo($profileAbout, $ID, $profilePicture = null){
+        $sql = "INSERT INTO profiles (profile_about, user_id, profile_pic) VALUES (:profile_about, :user_id, :profile_pic)";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':profile_about', $profileAbout);
+        $stmt->bindValue(':user_id', $ID);
+        $stmt->bindValue(':profile_pic', $profilePicture);
+
+
+        if ($profilePicture) {
+            $this->updateProfilePicture($ID, $profilePicture);
+            $_SESSION['profile_pic'] = $profilePicture;
+        }
+    
+        if(!$stmt->execute()){
+            $stmt = null;
+            throw new Exception("Error setting profile information.");
+        }
+    
+        $stmt = null;
+    }
+
+    public function getProfilePicture($ID) {
+        try {
+            $stmt = $this->db->prepare("SELECT profile_pic FROM users WHERE user_id = :user_id");
+            $stmt->bindValue(':user_id', $ID);
+            $stmt->execute([$ID]);
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+            return $result ? $result['profile_pic'] : null;
+        } catch (PDOException $e) {
+            return null;
+        }
     }
     
-    public function setProfileInfo($profileAbout, $ID){
-        $sql = "INSERT INTO profiles (profile_about, user_id) VALUES (:profileAbout, :user_id)";
-        $stmt = $this->db->prepare($sql);
-        $stmt->bindValue(':profile_about', $profileAbout);
+    public function updateProfilePicture($ID, $filename) {
+        $stmt = $this->db->prepare("UPDATE profiles SET profile_pic = ? WHERE user_id = :user_id");
         $stmt->bindValue(':user_id', $ID);
-
-        if(!$stmt->execute(array($profileAbout, $ID))){
-            $stmt = null;
-            header("location: profile.php?error=stmtfailed");
-            exit();
-        }
-
-        $stmt = null;
-
+        $stmt->execute([$filename, $ID]);
     }
-
-
-
-
-
 }

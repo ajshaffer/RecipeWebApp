@@ -1,15 +1,15 @@
-
-  @import url('https://fonts.googleapis.com/css2?family=Playpen+Sans:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playpen+Sans:wght@300&display=swap');
 
 
 * {
     /* border: 1px solid red; */
     font-family: 'Playpen Sans', cursive, sans-serif;
     background-color: #f0f0f0;
-    
+
 }
 
-body, html {
+body,
+html {
     margin: 0;
     padding: 0;
     width: 100%;
@@ -19,6 +19,7 @@ body, html {
 .success {
     color: #006100;
 }
+
 .error {
     color: #AD0000;
 }
@@ -29,9 +30,9 @@ body, html {
 
 
 .navbar a {
-    color: white; 
-    padding: 10px 20px; 
-    text-decoration: none; 
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
 }
 
 .navbar a:hover {
@@ -44,7 +45,7 @@ body, html {
     pointer-events: none;
 }
 
-.logout-button{
+.logout-button {
     color: white !important;
 }
 
@@ -67,8 +68,8 @@ body, html {
 }
 
 
-.left-side.left-side-login{
-    display: flex; 
+.left-side.left-side-login {
+    display: flex;
     flex: 2;
     background-image: url(/RecipeWebApp/images/login-food.jpg);
     background-size: cover;
@@ -77,8 +78,8 @@ body, html {
     height: 100vh;
 }
 
-.left-side.left-side-registration{
-    display: flex; 
+.left-side.left-side-registration {
+    display: flex;
     flex: 2;
     background-image: url(/RecipeWebApp/images/registration-food.jpg);
     background-size: cover;
@@ -87,12 +88,12 @@ body, html {
     height: 100vh;
 }
 
-.right-side{
+.right-side {
     flex: 1;
     padding: 20px;
 }
 
-.right-side-text{
+.right-side-text {
     text-align: center;
     margin-bottom: 40px;
 }
@@ -103,7 +104,7 @@ body, html {
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     width: 100%;
-    margin: 0; 
+    margin: 0;
 }
 
 .login-form h2 {
@@ -130,7 +131,7 @@ body, html {
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     width: 100%;
-    margin: 0; 
+    margin: 0;
 }
 
 .form h2 {
@@ -150,9 +151,9 @@ label {
     margin-bottom: 5px;
 }
 
-input[type = "email"],
-input[type = "password"],
-input[type = "text"] {
+input[type="email"],
+input[type="password"],
+input[type="text"] {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
@@ -160,17 +161,17 @@ input[type = "text"] {
     margin-bottom: 5px;
 }
 
-label[for = "fname"],
-label[for = "lname"],
-label[for = "email"],
-label[for = "new_pwd"],
-label[for = "pwd"],
-label[for = "new_email"],
-label[for = "confirm_pwd"]{
+label[for="fname"],
+label[for="lname"],
+label[for="email"],
+label[for="new_pwd"],
+label[for="pwd"],
+label[for="new_email"],
+label[for="confirm_pwd"] {
     font-size: 20px;
 }
 
-#new_pwd{
+#new_pwd {
     margin-bottom: 5px;
 }
 
@@ -187,11 +188,11 @@ button {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh; 
+    height: 100vh;
 }
 
 .update_profile {
-    max-width: 75%; 
+    max-width: 75%;
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
@@ -206,10 +207,11 @@ button {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh; 
+    height: 100vh;
 }
+
 .profile-page {
-    max-width: 75%; 
+    max-width: 75%;
     padding: 20px;
     background-color: #f2f2f2;
     border-radius: 5px;
@@ -218,16 +220,28 @@ button {
 
 
 .profileImage {
-    max-width: 150px; 
-    max-height: 150px; 
-    width: auto;       
-    height: auto;      
+    max-width: 150px;
+    max-height: 150px;
+    width: auto;
+    height: auto;
 }
 
 .edit-about-button {
-    height: auto; 
+    height: auto;
     cursor: pointer;
     padding-bottom: 5px;
 }
 
 
+.navbar.login-nav {
+    justify-content: flex-end;
+}
+
+.about-section {
+    border: 1px solid black;
+    padding: 5px;
+}
+
+.update_profile {
+    margin: auto;
+}

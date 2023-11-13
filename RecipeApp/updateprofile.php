@@ -3,9 +3,9 @@
 session_start();
 
 $pageName = "Update Profile";
+
 require_once "header.php";
 require_once "connect.php";
-
 include_once "../classes/userManager.class.php";
 
 checkLogin();
@@ -15,15 +15,15 @@ $pdo = $database->getConnection(); # Get the PDO connection object
 
 $showForm = 1;
 $errExists = 0;
-$err_email = "";
-$err_pwd = "";
-
-
-$ID = $_SESSION['ID'];
 
 $err_fname = "";
 $err_lname = "";
 $err_email = "";
+$err_pwd = "";
+$err_about = "";
+$err_profilepic = "";
+
+$ID = $_SESSION['ID'];
 
 
 
@@ -34,8 +34,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $lname = trim($_POST['lname']);
     $email = trim(strtolower($_POST['email']));
     $profileAbout = trim($_POST['about']);
+
     $new_pwd = $_POST['new_pwd'];
     $confirm_pwd = $_POST['confirm_pwd'];
+    $pwd_hashed = ''; 
+    $change_password = !empty($new_pwd) || !empty($confirm_pwd);
 
 
 
@@ -66,27 +69,29 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         }
     }
 
-    if (empty($new_pwd) || empty($confirm_pwd)) {
-        $errExists = 1;
-        $err_pwd = "Missing password.<br>";
-    } elseif (strlen($new_pwd) < 10) {
-        $errExists = 1;
-        $err_pwd .= " Password must be at least 10 characters in length.";
-    }
+    if ($change_password) {
+        if (empty($new_pwd) || empty($confirm_pwd)) {
+            $errExists = 1;
+            $err_pwd = "Missing password.<br>";
+        } elseif (strlen($new_pwd) < 10) {
+            $errExists = 1;
+            $err_pwd .= " Password must be at least 10 characters in length.";
+        }
 
-    if (empty($confirm_pwd)) {
-        $errExists = 1;
-        $err_pwd = "Missing password.<br>";
-    } elseif (strlen($confirm_pwd) < 10) {
-        $errExists = 1;
-        $err_pwd .= " Password must be at least 10 characters in length.";
-    }
+        if (empty($confirm_pwd)) {
+            $errExists = 1;
+            $err_pwd = "Missing password confirmation.<br>";
+        } elseif (strlen($confirm_pwd) < 10) {
+            $errExists = 1;
+            $err_pwd .= " Password must be at least 10 characters in length.";
+        }
 
-    if ($new_pwd != $confirm_pwd) {
-        $errExists = 1;
-        $err_pwd .= " Passwords do not match.";
-    } else {
-        $pwd_hashed = password_hash($confirm_pwd, PASSWORD_DEFAULT);
+        if ($new_pwd != $confirm_pwd) {
+            $errExists = 1;
+            $err_pwd .= " Passwords do not match.";
+        } else {
+            $pwd_hashed = password_hash($confirm_pwd, PASSWORD_DEFAULT);
+        }
     }
 
 
@@ -97,7 +102,18 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     if ($errExists == 1) {
         echo "<p class='error'>There are errors with your submission. Please make changes and re-submit.</p>";
     } else {
-        $sql = "UPDATE users SET fname = :fname, lname = :lname, email = :email, pwd = :pwd  WHERE ID = :ID";
+        $sql = "UPDATE profiles SET profile_about = :profile_about WHERE user_id = :ID";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindValue(':profile_about', $profileAbout);
+        $stmt->bindValue(':ID', $ID);
+
+        if (!$stmt->execute()) {
+            $stmt = null;
+            header("Location: updateprofile.php?error=stmtfailed");
+            exit();
+        }
+
+        $sql = "UPDATE users SET fname = :fname, lname = :lname, email = :email, pwd = :pwd  WHERE user_id = :ID";
         $stmt = $pdo->prepare($sql);
         $stmt->bindValue(':fname', $fname);
         $stmt->bindValue(':lname', $lname);
@@ -115,7 +131,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 }//Submit form
 
 if($showForm == 1){
-    $sql = "SELECT * FROM users WHERE user_id = :ID";
+    $sql = "SELECT users.*, profiles.profile_about 
+            FROM users
+            LEFT JOIN profiles ON users.user_id = profiles.user_id
+            WHERE users.user_id = :ID";
     $stmt = $pdo->prepare($sql);
     $stmt->bindValue(':ID', $ID);
     $stmt->execute();
@@ -128,12 +147,20 @@ if($showForm == 1){
 <div class = "container-fluid update-profile">
     <div class="update_profile">
         <h1>Update Your Profile</h1>
+    
     <div class="form-group">
-        <form name="myFormUpdate" id="myFormUpdate" method="post" action="updateprofile.php">
+        <form name="myFormUpdate" id="myFormUpdate" method="post" action="updateprofile.php" enctype="multipart/form-data">
 
-            <label for="fname">First Name:</label>
-            <input type="text" id="fname" name="fname" placeholder="Enter your first name:" maxlength="30" value="<?php if(isset($fname)){echo htmlspecialchars($fname);}else{echo htmlspecialchars($row['fname']);}?>">
-            <span class="error"> <?php echo $err_fname;?></span><br>
+            <label for="profile_pic">Profile Picture:</label>
+            <input type="file" id="profile_pic" name="profile_pic" accept="image/*">
+            <span class="error"> <?php echo $err_profilepic;?></span>
+
+
+            <div class = "name_change">
+                <label for="fname">First Name:</label>
+                <input type="text" id="fname" name="fname" placeholder="Enter your first name:" maxlength="30" value="<?php if(isset($fname)){echo htmlspecialchars($fname);}else{echo htmlspecialchars($row['fname']);}?>">
+                <span class="error"> <?php echo $err_fname;?></span><br>
+            </div>
 
             <label for="lname">Last Name:</label>
             <input type="text" id="lname" name="lname" placeholder="Enter your last name:" maxlength="50" value="<?php if(isset($lname)){echo htmlspecialchars($lname);}else{echo htmlspecialchars($row['lname']);}?>">
@@ -143,7 +170,7 @@ if($showForm == 1){
 
             <div class = "about">
                 <label for="about">About Me:</label>
-                <input type="text" id="about" name="about" placeholder="Tell us about yourself!" maxlength="1000" value="<?php if(isset($profileAbout)){echo htmlspecialchars($profileAbout);}else{echo htmlspecialchars($row['profile_about']);}?>">
+                <textarea id="about" name="about" maxlength="1000"><?php echo nl2br(htmlspecialchars($row['profile_about'])); ?></textarea>
                 <span class="error"> <?php echo $err_about;?></span>
             </div>
 

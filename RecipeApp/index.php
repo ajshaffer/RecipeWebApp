@@ -46,8 +46,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $loginResult = $userManager->login($email, $pwd);
 
         if ($loginResult === "success") {
+            echo "Successful login.";
         } else {
-            $err_login = $loginResult; 
+            $err_login = $loginResult;
         }
     }
 }

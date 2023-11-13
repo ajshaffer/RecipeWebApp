@@ -33,9 +33,9 @@ $rightNow = time();
                 echo "<a href ='#'>Manage Your Posts</a>";
                 echo "<a href='profile.php'>Profile</a>";
                 
-                if ($currentFile == 'profile.php'){
-                    echo "<a href ='updateprofile.php'>Update Profile</a>";
-                }
+                // if ($currentFile == 'profile.php'){
+                //     echo "<a href ='updateprofile.php'>Update Profile</a>";
+                // }
 
                 echo '<ul class="navbar-nav ml-auto">';
                 
@@ -54,6 +54,12 @@ $rightNow = time();
 
                 echo '</ul>';
             }
+            else{
+                echo "<a class = 'login-nav' href='index.php'>Login</a>";
+                echo "<a class = 'register-nav' href='register.php'>Register</a>";
+
+            }
+
             ?>
         </nav>
 
