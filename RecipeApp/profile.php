@@ -7,14 +7,20 @@ $pageName = "User Profile";
 require_once "connect.php";
 require_once "functions.php";
 require_once "header.php";
+require_once "../classes/userManager.class.php";
 
 checkLogin();
 
 $database = new Database(); # Instantiate the Database class
 $pdo = $database->getConnection(); # Get the PDO connection object
+$userManager = new UserManager($pdo);
 
 $user_id = $_SESSION['ID'];
-$user_name = $_SESSION['fname'];
+$user_name = $_SESSION['fname'] . " " . $_SESSION['lname'];
+$profilePic = $_SESSION['profile_pic'] ?? "../images/default_profile.jpg";
+
+
+$userManager->getProfileInfo($user_id);
 
 ?>
 
@@ -24,27 +30,32 @@ $user_name = $_SESSION['fname'];
 
             <div class = "col profile-pic username">
                 <div class = "intro">
-                    <h1>Hi! I'm <?php echo $user_name; ?>
+                    <h2>Hi! I'm <?php echo $user_name; ?>
                     <a href="updateprofile.php">
                         <img src="../images/edit_FILL0_wght400_GRAD0_opsz24.png" alt="Edit About" id="editAboutBtn" class="edit-about-button">
                     </a>
-                    </h1>
+                    </h2>
                 </div>
 
 
                 <div class = "profile-pic">
-                    <img src="../images/istockphoto-610003972-612x612.jpg" alt="Profile Picture" class = "profileImage">
+                <?php
+                    $profilePic = $_SESSION['profile_pic'] ?? "../images/default_profile.jpg";
+                    ?>
+                    <img src="<?php echo "../profile_pics/" . $profilePic; ?>" alt="Profile Picture" class="profileImage">
+
                 </div>
             </div>
 
 
 
             <div class = "col about">
-                <h3>About Me
-                </h3>
-                <p>
-                    <?php echo $profileAbout; ?>
-                </p>
+                <h3>About Me</h3>
+                <div class = "about-section">
+                    <p>
+                        <?php echo $_SESSION['profileAbout'];?>
+                    </p>
+                </div>
             </div>
 
         </div>
