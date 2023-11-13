@@ -10,8 +10,10 @@ include_once "../classes/userManager.class.php";
 
 checkLogin();
 
-$database = new Database(); # Instantiate the Database class
-$pdo = $database->getConnection(); # Get the PDO connection object
+$database = new Database();
+$pdo = $database->getConnection();
+
+$userManager = new UserManager($pdo);
 
 $showForm = 1;
 $errExists = 0;
@@ -25,9 +27,27 @@ $err_profilepic = "";
 
 $ID = $_SESSION['ID'];
 
+$profilePicture = isset($_FILES['profile_pic']['name']) ? $_FILES['profile_pic']['name'] : null;
 
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
+    print_r($_FILES);
+    
+
+    $targetDir = "../profile_pics/";
+    $fileName = basename($_FILES["profile_pic"]["name"]);
+    $targetPath = $targetDir . $fileName;
+
+    if (move_uploaded_file($_FILES["profile_pic"]["tmp_name"], $targetPath)) {
+        $_SESSION['profile_pic'] = $fileName;
+        echo "Profile picture uploaded successfully!";
+    } else {
+        echo "Sorry, there was an error uploading your file.";
+    }
+
+
+    print_r($_SESSION);
+
 
     //Variables
     $fname = trim($_POST['fname']);
@@ -37,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     $new_pwd = $_POST['new_pwd'];
     $confirm_pwd = $_POST['confirm_pwd'];
-    $pwd_hashed = ''; 
+    $pwd_hashed = '';
     $change_password = !empty($new_pwd) || !empty($confirm_pwd);
 
 
@@ -97,35 +117,19 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
 
 
-
     //Submitting the form
     if ($errExists == 1) {
         echo "<p class='error'>There are errors with your submission. Please make changes and re-submit.</p>";
     } else {
-        $sql = "UPDATE profiles SET profile_about = :profile_about WHERE user_id = :ID";
-        $stmt = $pdo->prepare($sql);
-        $stmt->bindValue(':profile_about', $profileAbout);
-        $stmt->bindValue(':ID', $ID);
+        try{
+            $userManager->updateProfileInfo($profileAbout, $ID, $profilePicture);
 
-        if (!$stmt->execute()) {
-            $stmt = null;
-            header("Location: updateprofile.php?error=stmtfailed");
-            exit();
-        }
-
-        $sql = "UPDATE users SET fname = :fname, lname = :lname, email = :email, pwd = :pwd  WHERE user_id = :ID";
-        $stmt = $pdo->prepare($sql);
-        $stmt->bindValue(':fname', $fname);
-        $stmt->bindValue(':lname', $lname);
-        $stmt->bindValue(':email', $email);
-        $stmt->bindValue(':pwd', $pwd_hashed);
-        $stmt->bindValue(':ID', $ID);
-        $result = $stmt->execute();
-        if ($result) {
             echo "<p class='success'>Your information has been updated.</p>";
             $showForm = 0;
-        } else {
-            echo "There was an error.";
+                
+        }catch (PDOException $e){
+            $pdo->rollBack();
+            echo "Error: " . $e->getMessage();
         }
     }
 }//Submit form

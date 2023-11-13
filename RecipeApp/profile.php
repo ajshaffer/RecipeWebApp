@@ -16,7 +16,9 @@ $pdo = $database->getConnection(); # Get the PDO connection object
 $userManager = new UserManager($pdo);
 
 $user_id = $_SESSION['ID'];
-$user_name = $_SESSION['fname'];
+$user_name = $_SESSION['fname'] . " " . $_SESSION['lname'];
+$profilePic = $_SESSION['profile_pic'] ?? "../images/default_profile.jpg";
+
 
 $userManager->getProfileInfo($user_id);
 
@@ -37,11 +39,11 @@ $userManager->getProfileInfo($user_id);
 
 
                 <div class = "profile-pic">
-                    <?php
-                        $profilePic = $_SESSION['profile_pic'] ?? "../images/default_profile.jpg";
-                        ?>
-                    <img src="<?php echo $profilePic; ?>" alt="Profile Picture" class="profileImage">
-    
+                <?php
+                    $profilePic = $_SESSION['profile_pic'] ?? "../images/default_profile.jpg";
+                    ?>
+                    <img src="<?php echo "../profile_pics/" . $profilePic; ?>" alt="Profile Picture" class="profileImage">
+
                 </div>
             </div>
 
