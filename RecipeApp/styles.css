@@ -249,3 +249,7 @@ button {
 .profile-page {
     margin-top: 25px;
 }
+
+.col.about {
+    text-align: center;
+}
