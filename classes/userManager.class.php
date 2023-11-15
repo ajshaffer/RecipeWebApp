@@ -149,6 +149,8 @@ class UserManager
             $stmt->bindValue(':user_id', $ID);
             $stmt->execute([$ID]);
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            
     
             return $result ? $result['profile_pic'] : null;
         } catch (PDOException $e) {
