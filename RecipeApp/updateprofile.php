@@ -27,7 +27,7 @@ $err_profilepic = "";
 
 $ID = $_SESSION['ID'];
 
-$profilePicture = isset($_FILES['profile_pic']['name']) ? $_FILES['profile_pic']['name'] : null;
+$profilePic = isset($_SESSION['profile_pic']) ? $_SESSION['profile_pic'] : "../profile_pics/default_profile.jpg";
 
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
