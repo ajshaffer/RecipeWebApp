@@ -10,6 +10,9 @@ require_once "connect.php";
 
 $database = new Database(); // Instantiate the Database class
 $pdo = $database->getConnection(); // Get the PDO connection object
+//$userManager = new UserManager($pdo);
+
+//$user_id = $_SESSION['ID'];
 
 $currentFile = basename($_SERVER['SCRIPT_FILENAME']);
 
