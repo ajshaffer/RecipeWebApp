@@ -1,12 +1,286 @@
+@import url('https://fonts.googleapis.com/css2?family=Playpen+Sans:wght@300&display=swap');
+
+@keyframes typing {
+    from {
+        width: 0
+    }
+
+    to {
+        width: 100%
+    }
+}
+
+
+
+* {
+    /* border: 1px solid red; */
+    font-family: 'Playpen Sans', cursive, sans-serif;
+    background-color: #f0f0f0;
+
+}
+
+body,
+html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100vh;
+}
+
 .success {
     color: #006100;
 }
+
 .error {
     color: #AD0000;
 }
+
 
 table, th, td {
     border:1px solid black;
   }
 
 
+.bg-dark {
+    background-color: #003;
+}
+
+
+.navbar a {
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+}
+
+.navbar a:hover {
+    background-color: #555;
+    color: white;
+    text-decoration: none;
+}
+
+.navbar-brand {
+    pointer-events: none;
+}
+
+.logout-button {
+    color: white !important;
+}
+
+.logout-button a:hover {
+    background-color: #555;
+    color: white !important;
+    text-decoration: none;
+}
+
+.nav-item-search {
+    padding-right: 10px;
+}
+
+.container-fluid {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+
+.left-side.left-side-login {
+    display: flex;
+    flex: 2;
+    background-image: url(/RecipeWebApp/images/login-food.jpg);
+    background-size: cover;
+    background-position: center;
+    padding: 20px;
+    height: 100vh;
+}
+
+.left-side.left-side-registration {
+    display: flex;
+    flex: 2;
+    background-image: url(/RecipeWebApp/images/registration-food.jpg);
+    background-size: cover;
+    background-position: center;
+    padding: 20px;
+    height: 100vh;
+}
+
+.right-side {
+    flex: 1;
+    padding: 20px;
+}
+
+.right-side-text {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.right-side .right-side-text p {
+    overflow: hidden;
+    white-space: nowrap;
+    margin: 0 auto;
+    animation: typing 3.5s steps(40, end);
+}
+
+.login-form {
+    background-color: #f2f2f2;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    margin: 0;
+}
+
+.login-form h2 {
+    text-align: center;
+}
+
+.register-link {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.login-link {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.signup-form {
+    background-color: #f2f2f2;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    margin: 0;
+}
+
+.form h2 {
+    margin-bottom: 0 0 10px 0;
+    text-align: center;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-right: 22px;
+    margin-bottom: 15px;
+}
+
+label {
+    margin-bottom: 5px;
+}
+
+input[type="email"],
+input[type="password"],
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    margin-bottom: 5px;
+}
+
+label[for="fname"],
+label[for="lname"],
+label[for="email"],
+label[for="new_pwd"],
+label[for="pwd"],
+label[for="new_email"],
+label[for="confirm_pwd"] {
+    font-size: 20px;
+}
+
+#new_pwd {
+    margin-bottom: 5px;
+}
+
+button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.container-fluid.update-profile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.update_profile {
+    max-width: 75%;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.update_profile h1 {
+    text-align: center;
+}
+
+
+.container.profile-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+}
+
+.profile-page {
+    max-width: 75%;
+    padding: 20px;
+    background-color: #f2f2f2;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+
+.profileImage {
+    max-width: 150px;
+    max-height: 150px;
+    width: auto;
+    height: auto;
+    border: 1px solid rgb(0, 0, 0, 0.2);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.edit-about-button {
+    height: auto;
+    cursor: pointer;
+    padding-bottom: 5px;
+}
+
+
+.navbar.login-nav {
+    justify-content: flex-end;
+}
+
+.about-section {
+    border: 1px solid rgb(0, 0, 0, 0.2);
+    padding: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.update_profile {
+    margin: auto;
+}
+
+.profile-page {
+    margin-top: 25px;
+}
+
+.col.about {
+    text-align: center;
+}
+
+.row.about {
+    align-self: flex-start;
+}

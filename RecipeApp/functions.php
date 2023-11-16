@@ -7,7 +7,7 @@ function check_duplicates($pdo, $sql, $field)
     $stmt->bindValue(':field', $field);
     $stmt->execute();
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
-    return ($row !== false); // Return true if a row was found (duplicate), false otherwise
+    return ($row !== false); 
 }
 
 
@@ -15,10 +15,10 @@ function checkLogin()
 {
     if (!isset($_SESSION['ID'])) {
         echo "<p class='error'>This page requires authentication.  Please log in to view details.</p>";
-        require_once "footer.php";
         exit();
     }
 }
+
 
 function recipeDay($pdo, $day)
 {
@@ -36,3 +36,4 @@ function recipeDay($pdo, $day)
     }
 }
 }
+
