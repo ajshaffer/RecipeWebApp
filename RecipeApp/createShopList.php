@@ -30,7 +30,28 @@ if ($_SERVER['REQUEST_METHOD'] == "POST"){
 
 
     foreach($days as $day){
-        echo $day . "<br>";
+        $sql = "SELECT * FROM mealplanner WHERE day = :day";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindValue(':day', $day);
+        $stmt->execute();
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach($results as $result){
+            $recipeName = $result['recipeName'];
+            $sql = "SELECT * FROM recipes WHERE title = :title";
+            $stmt = $pdo->prepare($sql);
+            $stmt->bindValue(':title', $recipeName);
+            $stmt->execute();
+
+            $row = $stmt->fetch();
+
+            $ingredients = $row['ingredients'] . "\n";
+
+            $myfile = fopen("shoppinglist.txt", "a") or die("Unable to open file!");
+            
+            fwrite($myfile, $ingredients);
+            fclose($myfile);
+        }
     }
 }
     
