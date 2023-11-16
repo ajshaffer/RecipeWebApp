@@ -7,12 +7,13 @@ if (isset($_GET['t'])) {
 }
 
 require_once "connect.php";
+require_once "../classes/userManager.class.php";
 
 $database = new Database(); // Instantiate the Database class
 $pdo = $database->getConnection(); // Get the PDO connection object
-//$userManager = new UserManager($pdo);
+$userManager = new UserManager($pdo);
 
-//$user_id = $_SESSION['ID'];
+$user_id = $_SESSION['ID'];
 
 $currentFile = basename($_SERVER['SCRIPT_FILENAME']);
 
@@ -47,11 +48,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST"){
         echo "<p class='error'>There are errors.  Please make changes and resubmit.</p>";
      }else{ 
 
-    $sql = "INSERT INTO mealplanner (recipeName, day, meal) VALUES (:recipeName, :day, :meal)";
+    $sql = "INSERT INTO mealplanner (recipeName, day, meal, userID) VALUES (:recipeName, :day, :meal, :userID)";
         $stmt = $pdo->prepare($sql);
         $stmt->bindValue(':recipeName', $recipeName);
         $stmt->bindValue(':day', $day);
         $stmt->bindValue(':meal', $meal);
+        $stmt->bindValue(':userID', $user_id);
         
         $stmt->execute();
 

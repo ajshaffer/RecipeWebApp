@@ -1,10 +1,16 @@
 <?php
-$currentFile = basename($_SERVER['SCRIPT_FILENAME']);
+session_start();
+
 require_once "connect.php";
 require_once "functions.php"; 
+require_once "../classes/userManager.class.php";
 
 $database = new Database(); // Instantiate the Database class
 $pdo = $database->getConnection(); // Get the PDO connection object
+
+$userManager = new UserManager($pdo);
+
+$user_id = $_SESSION['ID'];
 
 $currentFile = basename($_SERVER['SCRIPT_FILENAME']);
 
@@ -61,26 +67,26 @@ if (isset($_GET['search'])){
   <tr>
     <td><?php 
     $day = "sun"; 
-    recipeDay($pdo, $day) ?>
+    recipeDay($pdo, $day, $user_id) ?>
     </td>
     <td><?php 
     $day = "mon"; 
-    recipeDay($pdo, $day) ?></td>
+    recipeDay($pdo, $day, $user_id) ?></td>
     <td><?php 
     $day = "tue"; 
-    recipeDay($pdo, $day) ?></td>
+    recipeDay($pdo, $day, $user_id) ?></td>
     <td><?php 
     $day = "wed"; 
-    recipeDay($pdo, $day) ?></td>
+    recipeDay($pdo, $day, $user_id) ?></td>
     <td><?php 
     $day = "thu"; 
-    recipeDay($pdo, $day) ?></td>
+    recipeDay($pdo, $day, $user_id) ?></td>
     <td><?php 
     $day = "fri"; 
-    recipeDay($pdo, $day) ?></td>
+    recipeDay($pdo, $day, $user_id) ?></td>
     <td><?php 
     $day = "sat"; 
-    recipeDay($pdo, $day) ?></td>
+    recipeDay($pdo, $day, $user_id) ?></td>
   </tr>
  
 </table>
