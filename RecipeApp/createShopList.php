@@ -20,6 +20,19 @@ $errExists = 0;
 
 
 if ($_SERVER['REQUEST_METHOD'] == "POST"){
+
+    if(isset($_POST['day'])){$days = $_POST['day'];}
+
+    if(empty($days)){
+        echo "Error- please choose days to create shopping list from";
+    }else{
+
+
+
+    foreach($days as $day){
+        echo $day . "<br>";
+    }
+}
     
 }
 
@@ -33,25 +46,25 @@ if($showForm == 1){
 
         <p>Select days to create a shopping list for </p>
         <label for="day-0">Sunday</label>
-        <input type="checkbox" name="day" id="day-0" value="sun">
+        <input type="checkbox" name="day[]" id="day-0" value="sun">
         <br>
         <label for="day-1">Monday</label>
-        <input type="checkbox" name="day" id="day-1" value="mon">
+        <input type="checkbox" name="day[]" id="day-1" value="mon">
         <br>
         <label for="day-2">Tuesday</label>
-        <input type="checkbox" name="day" id="day-2" value="tue">
+        <input type="checkbox" name="day[]" id="day-2" value="tue">
         <br>
         <label for="day-3">Wednesday</label>
-        <input type="checkbox" name="day" id="day-3" value="wed">
+        <input type="checkbox" name="day[]" id="day-3" value="wed">
         <br>
         <label for="day-4">Thursday</label>
-        <input type="checkbox" name="day" id="day-4" value="thu">
+        <input type="checkbox" name="day[]" id="day-4" value="thu">
         <br>
         <label for="day-5">Friday</label>
-        <input type="checkbox" name="day" id="day-5" value="fri">
+        <input type="checkbox" name="day[]" id="day-5" value="fri">
         <br>
         <label for="day-6">Saturday</label>
-        <input type="checkbox" name="day" id="day-6" value="sat">
+        <input type="checkbox" name="day[]" id="day-6" value="sat">
         <br>
 
         <br><br>
@@ -61,7 +74,7 @@ if($showForm == 1){
 
         
 
-        <input type="submit" id="submit" name="submit" value="Add Recipe">
+        <input type="submit" id="submit" name="submit" value="Create Shopping List">
     
 </form>
 
