@@ -32,6 +32,7 @@ $rightNow = time();
                 echo "<a href ='#'>Post</a>";
                 echo "<a href ='#'>Manage Your Posts</a>";
                 echo "<a href='profile.php'>Profile</a>";
+                echo "<a href='mealplanner.php'>Meal Planner</a>";
                 
                 // if ($currentFile == 'profile.php'){
                 //     echo "<a href ='updateprofile.php'>Update Profile</a>";

@@ -20,11 +20,12 @@ function checkLogin()
 }
 
 
-function recipeDay($pdo, $day)
+function recipeDay($pdo, $day, $userID)
 {
-    $sql = "SELECT recipeName FROM mealplanner WHERE day LIKE :day";
+    $sql = "SELECT recipeName FROM mealplanner WHERE day LIKE :day AND userID = :userID ORDER BY meal";
     $stmt = $pdo->prepare($sql);
     $stmt->bindValue(':day', $day);
+    $stmt->bindValue(':userID', $userID);
     $stmt->execute();
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
     if (empty($result)){
