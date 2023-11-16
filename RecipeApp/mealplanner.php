@@ -4,6 +4,7 @@ session_start();
 require_once "connect.php";
 require_once "functions.php"; 
 require_once "../classes/userManager.class.php";
+require_once "header.php";
 
 $database = new Database(); // Instantiate the Database class
 $pdo = $database->getConnection(); // Get the PDO connection object
