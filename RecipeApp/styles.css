@@ -35,6 +35,12 @@ html {
     color: #AD0000;
 }
 
+
+table, th, td {
+    border:1px solid black;
+  }
+
+
 .bg-dark {
     background-color: #003;
 }
