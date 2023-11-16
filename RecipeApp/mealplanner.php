@@ -116,6 +116,7 @@ if (!empty($result)){
 ?>
 
 <a href='createShopList.php'>Create Shopping List</a>
+<a href='deleteMealPlanner.php'>Delete Recipes from Meal Planner</a>
 
 </body>
 </html>
