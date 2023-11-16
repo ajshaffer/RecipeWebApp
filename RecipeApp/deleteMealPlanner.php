@@ -121,7 +121,7 @@ if($showForm == 1){
 
         
 
-        <input type="submit" id="submit" name="submit" value="Create Shopping List">
+        <input type="submit" id="submit" name="submit" value="Delete">
     
 </form>
 
