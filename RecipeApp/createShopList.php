@@ -1,11 +1,16 @@
 <?php
 
-
+session_start();
 
 require_once "connect.php";
+require_once "../classes/userManager.class.php";
+require_once "header.php";
 
 $database = new Database(); // Instantiate the Database class
 $pdo = $database->getConnection(); // Get the PDO connection object
+$userManager = new UserManager($pdo);
+
+$user_id = $_SESSION['ID'];
 
 $currentFile = basename($_SERVER['SCRIPT_FILENAME']);
 
@@ -30,11 +35,16 @@ if ($_SERVER['REQUEST_METHOD'] == "POST"){
 
 
     foreach($days as $day){
-        $sql = "SELECT * FROM mealplanner WHERE day = :day";
+        $sql = "SELECT * FROM mealplanner WHERE day = :day AND userID = :userID";
         $stmt = $pdo->prepare($sql);
         $stmt->bindValue(':day', $day);
+        $stmt->bindValue(':userID', $user_id);
         $stmt->execute();
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        if(empty($results)){
+            echo "No recipes have been added to these days!";
+        }else{
 
         foreach($results as $result){
             $recipeName = $result['recipeName'];
@@ -51,7 +61,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST"){
             
             fwrite($myfile, $ingredients);
             fclose($myfile);
+
+            echo "List successfully created!";
         }
+    }
+
     }
 }
     

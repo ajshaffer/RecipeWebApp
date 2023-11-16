@@ -115,5 +115,7 @@ if (!empty($result)){
 
 ?>
 
+<a href='createShopList.php'>Create Shopping List</a>
+
 </body>
 </html>
