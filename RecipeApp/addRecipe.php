@@ -7,6 +7,7 @@ if (isset($_GET['t'])) {
 }
 
 require_once "connect.php";
+require_once "header.php";
 
 $database = new Database(); // Instantiate the Database class
 $pdo = $database->getConnection(); // Get the PDO connection object
