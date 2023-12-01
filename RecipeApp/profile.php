@@ -30,6 +30,7 @@ $profilePic = isset($_SESSION['profile_pic']) ? $_SESSION['profile_pic'] : "../p
 <body>
     <div class = "container profile-page">
         <div class = "row about">
+
             <div class = "col profile-pic username">
                 <div class = "intro">
                     <h2>Hi! I'm <?php echo $user_name; ?>
@@ -38,14 +39,11 @@ $profilePic = isset($_SESSION['profile_pic']) ? $_SESSION['profile_pic'] : "../p
                     </a>
                     </h2>
                 </div>
-
-
                 <div class = "profile-pic">
                     <img src="<?php echo "../profile_pics/" . $profilePic; ?>" alt="Profile Picture" class="profileImage">
 
                 </div>
             </div>
-
 
 
             <div class = "col about">

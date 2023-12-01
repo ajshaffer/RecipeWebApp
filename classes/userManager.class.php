@@ -25,7 +25,7 @@ class UserManager
 
         if ($stmt->execute()){
 
-            $defaultPicture = "../images/default_profile.jpg";
+            $defaultPicture = "../profile_pics/default_profile.jpg";
 
             $user_id = $this->db->lastInsertId();
             $this->setProfileInfo("Welcome to my profile! I'm still crafting my unique story. Stay tuned for updates about my interests, experiences, and more.", $user_id, $defaultPicture);
@@ -88,20 +88,27 @@ class UserManager
         }
     }
 
-    public function updateProfileInfo($profileAbout, $ID, $profilePicture = null){
+    public function updateProfileInfo($fname, $lname, $profileAbout, $ID, $profilePicture = null){
         try {
             $this->db->beginTransaction();
     
             // Update profile about
-            $sql = "UPDATE profiles SET profile_about = :profile_about, profile_pic = :profile_pic WHERE user_id = :user_id";
+            $sql = "UPDATE profiles SET profile_about = :profile_about WHERE user_id = :user_id";
             $stmt = $this->db->prepare($sql);
             $stmt->bindValue(':profile_about', $profileAbout);
-            $stmt->bindValue(':profile_pic', $profilePicture);
             $stmt->bindValue(':user_id', $ID);
     
             if (!$stmt->execute()) {
                 throw new Exception("Error updating profile information.");
             }
+    
+            // Update user's first and last names
+            $sqlUpdateNames = "UPDATE users SET fname = :fname, lname = :lname WHERE user_id = :user_id";
+            $stmtUpdateNames = $this->db->prepare($sqlUpdateNames);
+            $stmtUpdateNames->bindValue(':fname', $fname);
+            $stmtUpdateNames->bindValue(':lname', $lname);
+            $stmtUpdateNames->bindValue(':user_id', $ID);
+            $stmtUpdateNames->execute();
     
             // Update profile picture if provided
             if ($profilePicture) {
@@ -109,6 +116,9 @@ class UserManager
                 $_SESSION['profile_pic'] = $profilePicture;
             }
     
+
+            $_SESSION['fname'] = $fname;
+            $_SESSION['lname'] = $lname;
             $_SESSION['profileAbout'] = $profileAbout;
     
             $this->db->commit();
@@ -117,8 +127,8 @@ class UserManager
             header("Location: profile.php?error=stmtfailed");
             exit();
         }
-
     }
+    
     
     
 

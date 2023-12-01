@@ -31,8 +31,6 @@ $profilePic = isset($_SESSION['profile_pic']) ? $_SESSION['profile_pic'] : "../p
 
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
-    print_r($_FILES);
-    
 
     $targetDir = "../profile_pics/";
     $fileName = basename($_FILES["profile_pic"]["name"]);
@@ -41,12 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     if (move_uploaded_file($_FILES["profile_pic"]["tmp_name"], $targetPath)) {
         $_SESSION['profile_pic'] = $fileName;
         echo "Profile picture uploaded successfully!";
-    } else {
-        echo "Sorry, there was an error uploading your file.";
     }
-
-
-    print_r($_SESSION);
 
 
     //Variables
@@ -122,7 +115,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         echo "<p class='error'>There are errors with your submission. Please make changes and re-submit.</p>";
     } else {
         try{
-            $userManager->updateProfileInfo($profileAbout, $ID, $profilePicture);
+            $userManager->updateProfileInfo($fname, $lname, $profileAbout, $ID);
 
             echo "<p class='success'>Your information has been updated.</p>";
             $showForm = 0;

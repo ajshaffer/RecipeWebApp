@@ -36,9 +36,11 @@ html {
 }
 
 
-table, th, td {
-    border:1px solid black;
-  }
+table,
+th,
+td {
+    border: 1px solid black;
+}
 
 
 .bg-dark {
@@ -284,3 +286,4 @@ button {
 .row.about {
     align-self: flex-start;
 }
+
