@@ -1,5 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+<?php
+    session_start();
+    $pageName = "Search";
+    require_once "connect.php";
+    require_once "functions.php";
+    require_once "header.php";
+    $database = new Database();
+    $pdo = $database->getConnection();
+    ?>
 
 <head>
     <meta charset="UTF-8">
@@ -35,7 +44,7 @@
         }
 
         input[type="submit"] {
-            background-color: #4caf50;
+            background-color: #007bff;
             color: white;
             padding: 10px 15px;
             border: none;
@@ -44,7 +53,7 @@
         }
 
         input[type="submit"]:hover {
-            background-color: #45a049;
+            background-color: #0056b3; 
         }
 
         h2 {
@@ -81,16 +90,6 @@
 </head>
 
 <body>
-    <?php
-    session_start();
-    $pageName = "Search";
-    require_once "connect.php";
-    require_once "functions.php";
-    require_once "header.php";
-    $database = new Database();
-    $pdo = $database->getConnection();
-    ?>
-
     <div id="search-container">
         <form method="post" action="">
             <label for="search">Search for Recipes:</label>
